@@ -24,7 +24,12 @@ namespace SimpleECA.WEB
         }
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<AppSettingsHelper, AppSettingsHelper>();
+            services.AddMvc()
+                    .AddNewtonsoftJson(options =>
+                           options.SerializerSettings.ContractResolver =
+                              new CamelCasePropertyNamesContractResolver());
+
+            services.AddSingleton<AppSettingsHelper, AppSettingsHelper>();
             var secret = new Secret();
             configuration.Bind("Secret", secret);
             services.AddSingleton(secret);
