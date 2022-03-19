@@ -44,14 +44,14 @@ namespace SimpleECA.WEB
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
-
+            services.AddMvc();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/account/login"; // Must be lowercase
+                    options.LoginPath = "/u/login"; // Must be lowercase
                 })
                     .AddGoogle(options =>
                     {

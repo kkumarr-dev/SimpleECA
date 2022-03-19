@@ -37,7 +37,7 @@ namespace SimpleECA.WEB
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/u/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -55,7 +55,7 @@ namespace SimpleECA.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

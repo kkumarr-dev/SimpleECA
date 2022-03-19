@@ -16,5 +16,10 @@ namespace SimpleECA.Entities
         { }
         public virtual DbSet<TblUserDetails> TblUserDetails { get; set; }
         public virtual DbSet<TblRoles> TblRoles { get; set; }
+        public virtual DbSet<TblBrandMaster> TblBrandMaster { get; set; }
+        public virtual DbSet<TblCategoryMaster> TblCategoryMaster { get; set; }
+        public virtual DbSet<TblSubCategoryMaster> TblSubCategoryMaster { get; set; }
+        public virtual DbSet<TblProducts> TblProducts { get; set; }
+        public virtual DbSet<TblProductMapping> TblProductMapping { get; set; }
     }
 }
