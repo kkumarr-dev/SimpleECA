@@ -80,5 +80,24 @@ namespace SimpleECA.Repos
             };
             return user;
         }
+
+        public async Task<bool> CreateUser(UserDetailsViewModel user)
+        {
+            if (user == null) return false;
+            var dbModel = new TblUserDetails
+            {
+                createdon = DateTime.Now,
+                email = user.email,
+                firstname = user.firstname,
+                isactive = user.isactive,
+                lastname = user.lastname,
+                mobilenumber = user.mobilenumber,
+                updatedon = DateTime.Now,
+                userroleid = user.userroleid,
+                rpassword = AESCryptoHelper.Encrypt(user.rpassword, _appSettings.Secret.Key)
+            };
+            await _dBContext.TblUserDetails.AddAsync(dbModel);
+            return await _dBContext.SaveChangesAsync() > 0;
+        }
     }
 }

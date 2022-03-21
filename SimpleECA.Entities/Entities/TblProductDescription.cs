@@ -6,15 +6,15 @@ using System.Text;
 
 namespace SimpleECA.Entities
 {
-    [Table("TblSubCategoryMaster")]
-    public class TblSubCategoryMaster
+    [Table("tblproductdescription")]
+    public class TblProductDescription
     {
         [Key]
-        public int subcatid { get; set; }
-        public int categoryid { get; set; }
-        public string subcategoryname { get; set; }
+        public int pdid { get; set; }
+        public int productid { get; set; }
+        public string shortdescription { get; set; }
+        public string longdescription { get; set; }
         public DateTime createdat { get; set; }
         public DateTime updatedat { get; set; }
-        public bool isactive { get; set; }
     }
 }

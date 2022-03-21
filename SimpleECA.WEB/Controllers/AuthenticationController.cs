@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleECA.Models;
+using SimpleECA.Models.UserViewModel;
 using SimpleECA.Services;
 using SimpleECA.WEB.Models;
 using System;
@@ -19,9 +21,11 @@ namespace SimpleECA.WEB.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IAuthService _authService;
-        public AuthenticationController(IAuthService authService)
+        private IHttpContextAccessor _accessor;
+        public AuthenticationController(IAuthService authService, IHttpContextAccessor accessor)
         {
             _authService = authService;
+            _accessor = accessor;
         }
         public IActionResult Index()
         {
@@ -31,6 +35,12 @@ namespace SimpleECA.WEB.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Register(UserDetailsViewModel user)
+        {
+            var res = await _authService.CreateUser(user);
+            return Ok(res);
         }
         public async Task<IActionResult> Login(AuthenticateRequestViewModel model)
         {
@@ -98,6 +108,12 @@ namespace SimpleECA.WEB.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Authentication");
         }
     }
 }

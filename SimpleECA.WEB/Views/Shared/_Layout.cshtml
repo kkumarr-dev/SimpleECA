@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SimpleECA.WEB</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
@@ -13,31 +14,172 @@
 </head>
 <body>
 
-    <div class="container-fluid">
-        <h3>Sticky Navbar</h3>
-        <p>A sticky navigation bar stays fixed at the top of the page when you scroll past it.</p>
-        <p>Scroll this page to see the effect. <strong>Note:</strong> sticky-top does not work in IE11 and earlier.</p>
-    </div>
+    @*<div class="container-fluid">
+        </div>*@
     <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-primary">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Simple ECA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <div class="flex-grow-1"></div>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
+            <div class="flex-grow-1"></div>
+            <div class="col-6 p-1 bg-light rounded rounded-pill shadow-sm pl-3">
+                <div class="input-group">
+                    <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                    <div class="input-group-append">
+                        <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow-1"></div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="nav-link" href=""><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+                <li><a class="nav-link" href=""><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
+                <li><a class="nav-link" href=""><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></li>
+                <li><a class="nav-link" href="@Url.Action("logout","u")"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                <li><button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#modalLRForm">Login / Register</button></li>
             </ul>
         </div>
     </nav>
+    <!--Modal: Login / Register Form-->
+    <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog cascading-modal" role="document">
+            <!--Content-->
+            <div class="modal-content">
+
+                <!--Modal cascading tabs-->
+                <div class="modal-c-tabs">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs tabs-2 light-blue darken-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab"><i class="fa fa-user mr-1"></i> Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#panel8" role="tab"><i class="fa fa-user-plus mr-1"></i> Register</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panels -->
+                    <div class="tab-content">
+                        <!--Panel 7-->
+                        <div class="tab-pane fade in show active" id="panel7" role="tabpanel">
+
+                            <!--Body-->
+                            <div class="modal-body mb-1">
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="form22" class="form-control">
+                                    <label for="form22">Your email</label>
+                                </div>
+
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-lock prefix"></i>
+                                    <input type="password" id="form23" class="form-control">
+                                    <label for="form23">Your password</label>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button class="btn btn-info">Log in <i class="fa fa-sign-in ml-1"></i></button>
+                                </div>
+                            </div>
+                            <!--Footer-->
+                            <div class="modal-footer display-footer">
+                                <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
+                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fa fa-facebook-f mr-2"></i>Facebook</button>
+                                </a>
+                                <a href="@Url.Action("g-login","u")" class="m-1 text-decoration-none">
+                                    <button class="btn btn-lg btn-google btn-block text-uppercase"><i class="fa fa-google mr-2"></i>Google</button>
+                                </a>
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close <i class="fa fa-times-circle ml-1"></i></button>
+                            </div>
+
+                        </div>
+                        <!--/.Panel 7-->
+                        <!--Panel 8-->
+                        <div class="tab-pane fade" id="panel8" role="tabpanel">
+
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="rfirstName" class="form-control">
+                                    <label for="form24">Your FirstName</label>
+                                </div>
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="rlastName" class="form-control">
+                                    <label for="form24">Your LastName</label>
+                                </div>
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="remail" class="form-control">
+                                    <label for="form24">Your Email</label>
+                                </div>
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="rmobileno" class="form-control">
+                                    <label for="form24">Your MobileNumber</label>
+                                </div>
+
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-lock prefix"></i>
+                                    <input type="password" id="rpassword" class="form-control">
+                                    <label for="form25">Your password</label>
+                                </div>
+
+                                <div class="md-form form-sm">
+                                    <i class="fa fa-lock prefix"></i>
+                                    <input type="password" id="rpassword" class="form-control">
+                                    <label for="form26">Repeat password</label>
+                                </div>
+
+                                <div class="text-center form-sm mt-2">
+                                    <button class="btn btn-info">Sign up <i class="fa fa-sign-in ml-1"></i></button>
+                                </div>
+                            </div>
+                            <!--Footer-->
+                            <div class="modal-footer">
+                                <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
+                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fa fa-facebook-f mr-2"></i>Facebook</button>
+                                </a>
+                                <a href="@Url.Action("g-login","u")" class="m-1 text-decoration-none">
+                                    <button class="btn btn-lg btn-google btn-block text-uppercase"><i class="fa fa-google mr-2"></i>Google</button>
+                                </a>
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close <i class="fa fa-times-circle ml-1"></i></button>
+                            </div>
+                        </div>
+                        <!--/.Panel 8-->
+                    </div>
+
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!--Modal: Login / Register Form-->
+
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade drawer right-align" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Right Align Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         @RenderBody()
     </div>
@@ -50,7 +192,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

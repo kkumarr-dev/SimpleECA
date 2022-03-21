@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SimpleECA.WEB ADMIN</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        body {
+            padding-top: 4.5rem;
+            margin-bottom: 4.5rem;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            background-color: #ccc;
+        }
+
+        .nav-link:hover {
+            transition: all 0.4s;
+        }
+
+        .nav-link-collapse:after {
+            float: right;
+            content: '\f067';
+            font-family: 'FontAwesome';
+        }
+
+        .nav-link-show:after {
+            float: right;
+            content: '\f068';
+            font-family: 'FontAwesome';
+        }
+
+        .nav-item ul.nav-second-level {
+            padding-left: 0;
+        }
+
+            .nav-item ul.nav-second-level > .nav-item {
+                padding-left: 20px;
+            }
+
+        @@media (min-width: 992px) {
+            .sidenav {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 230px;
+                height: calc(100vh - 3.5rem);
+                margin-top: 3.5rem;
+                background: #343a40;
+                box-sizing: border-box;
+                border-top: 1px solid rgba(0, 0, 0, 0.3);
+            }
+
+            .navbar-expand-lg .sidenav {
+                flex-direction: column;
+            }
+
+            .content-wrapper {
+                margin-left: 230px;
+            }
+
+            .footer {
+                width: calc(100% - 230px);
+                margin-left: 230px;
+            }
+        }
+    </style>
+
+    <style>
+        /*From Right/Left */
+        .modal.drawer {
+            display: flex !important;
+            pointer-events: none;
+        }
+
+            .modal.drawer * {
+                pointer-events: none;
+            }
+
+            .modal.drawer .modal-dialog {
+                margin: 0px;
+                display: flex;
+                flex: auto;
+                transform: translate(25%, 0);
+            }
+
+                .modal.drawer .modal-dialog .modal-content {
+                    border: none;
+                    border-radius: 0px;
+                }
+
+                    .modal.drawer .modal-dialog .modal-content .modal-body {
+                        overflow: auto;
+                    }
+
+            .modal.drawer.show {
+                pointer-events: auto;
+            }
+
+                .modal.drawer.show * {
+                    pointer-events: auto;
+                }
+
+                .modal.drawer.show .modal-dialog {
+                    transform: translate(0, 0);
+                }
+
+            .modal.drawer.right-align {
+                flex-direction: row-reverse;
+                padding: 0 !important;
+            }
+
+            .modal.drawer.left-align:not(.show) .modal-dialog {
+                transform: translate(-25%, 0);
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Simple ECA Admin</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Item 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-collapse"
+                       href="#"
+                       id="hasSubItems"
+                       data-toggle="collapse"
+                       data-target="#collapseSubItems2"
+                       aria-controls="collapseSubItems2"
+                       aria-expanded="false">Item 2</a>
+                    <ul class="nav-second-level collapse" id="collapseSubItems2" data-parent="#navAccordion">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span class="nav-link-text">Item 2.1</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span class="nav-link-text">Item 2.2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Item 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-collapse"
+                       href="#"
+                       id="hasSubItems"
+                       data-toggle="collapse"
+                       data-target="#collapseSubItems4"
+                       aria-controls="collapseSubItems4"
+                       aria-expanded="false">Item 4</a>
+                    <ul class="nav-second-level collapse" id="collapseSubItems4" data-parent="#navAccordion">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span class="nav-link-text">Item 4.1</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span class="nav-link-text">Item 4.2</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span class="nav-link-text">Item 4.2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Item 5</a>
+                </li>
+            </ul>
+            <form class="form-inline ml-auto mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade drawer right-align" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Right Align Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - SimpleECA
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

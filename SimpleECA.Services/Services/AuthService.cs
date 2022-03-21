@@ -29,7 +29,11 @@ namespace SimpleECA.Services
 
         public async Task<AuthUserViewModel> GetById(int id)
         {
-            return await GetById(id);
+            return await _authenticationRepo.GetById(id);
+        }
+        public async Task<bool> CreateUser(UserDetailsViewModel user)
+        {
+            return await _authenticationRepo.CreateUser(user);
         }
     }
 }

@@ -19,11 +19,5 @@ namespace SimpleECA.WEB.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(UserDetailsViewModel user)
-        {
-            var res = await _userService.CreateUser(user);
-            return Ok(res);
-        }
     }
 }

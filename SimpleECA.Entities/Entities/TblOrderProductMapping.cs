@@ -6,18 +6,15 @@ using System.Text;
 
 namespace SimpleECA.Entities
 {
-    [Table("TblProducts")]
-    public class TblProducts
+    [Table("tblorderproductmapping")]
+    public class TblOrderProductMapping
     {
         [Key]
+        public int mappingid { get; set; }
+        public int orderid { get; set; }
         public int productid { get; set; }
-        public int productname { get; set; }
-        public int price { get; set; }
-        public int discount { get; set; }
-        public int isactive { get; set; }
-        public int isinoffer { get; set; }
+        public int isremoved { get; set; }
         public int createdat { get; set; }
-        public int updatedat { get; set; }
 
     }
 }

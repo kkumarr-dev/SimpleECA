@@ -35,7 +35,7 @@ namespace SimpleECA.WEB
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
 
-            var response = new { StatusText = "Internal Server Error/Bad request" };
+            var response = new { StatusText = exception.Message??exception.InnerException.Message };
             var json = JsonConvert.SerializeObject(response);
             await context.Response.WriteAsync(json);
         }

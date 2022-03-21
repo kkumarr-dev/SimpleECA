@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,14 +38,19 @@ namespace SimpleECA.WEB
             var fbSecret = configuration.GetSection("Authentication:FaceBook").Get<FaceBookSecrets>();
             services.AddSingleton(fbSecret);
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IAuthRepo, AuthRepo>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepo, UserRepo>();
+            services.AddTransient<IProductRepo, ProductRepo>();
+            services.AddTransient<IProductService, ProductService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc();
+            services.AddHttpContextAccessor();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
