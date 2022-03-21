@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
+    <link href="~/lib/notification-toaster/src/toaster.css" rel="stylesheet" />
     <style>
         html {
             position: relative;
@@ -149,7 +150,7 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Item 1</a>
+                    <a class="nav-link" href="#" onclick="openadminpartial('@Url.Action("CreateBrand","Admin")',350)">Create Brand</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-collapse"
@@ -214,25 +215,12 @@
 
     <!-- Button trigger modal -->
     <!-- Modal -->
-    <div class="modal fade drawer right-align" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Right Align Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
+    <div class="modal fade drawer right-align" id="adminPatial" tabindex="-1" role="dialog" aria-labelledby="adminPatial" aria-hidden="true">
+        <div class="modal-dialog" id="partialContent">
         </div>
     </div>
+    <!-- Loader -->
+    <div id="seca-loader" class="loader loader-default"></div>
 
     <div class="container-fluid">
         @RenderBody()
@@ -247,8 +235,44 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="~/lib/notification-toaster/src/toaster.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        function showLoader() {
+            $('#seca-loader').addClass('is-active')
+        }
+        function hideLoader() {
+            $('#seca-loader').removeClass('is-active')
+        }
+        function showtoaster(content) {
+            $('.toaster').click(function () {
+                $.toast({
+                    content: `${content}`,
+                    position: "top-right"
+                })
+            })
+        }
+        function openadminpartial(url, width) {
+            showLoader()
+            $.ajax({
+                url: url,
+                type: 'GET',
+                /*dataType: '',*/
+                success: function (data) {
+                    hideLoader()
+                    $(`#partialContent`).html(data);
+                    $(`#adminPatial`).modal('show');
+                    $('.modal-dialog').css('max-width', `${width}px`)
+                },
+                error: function (request, error) {
+                    hideLoader()
+                    showtoaster('Error');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

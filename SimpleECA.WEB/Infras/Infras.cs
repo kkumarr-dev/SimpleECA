@@ -34,7 +34,7 @@ namespace SimpleECA.WEB
 
             var googleSecret = configuration.GetSection("Authentication:Google").Get<GoogleSecrets>();
             services.AddSingleton(googleSecret);
-            
+
             var fbSecret = configuration.GetSection("Authentication:FaceBook").Get<FaceBookSecrets>();
             services.AddSingleton(fbSecret);
 
@@ -46,6 +46,8 @@ namespace SimpleECA.WEB
             services.AddTransient<IUserRepo, UserRepo>();
             services.AddTransient<IProductRepo, ProductRepo>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IAdminRepo, AdminRepo>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();

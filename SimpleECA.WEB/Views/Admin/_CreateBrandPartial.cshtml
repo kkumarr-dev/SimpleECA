@@ -1,0 +1,71 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Brand</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-12">
+                    <form class="form-horizontal" id="createBrand" data-toggle="validate" role="form">
+                        <div class="form-group">
+                            <label for="inpUsername" class="col-* control-label">Brand Name</label>
+                            <div class="col-*">
+                                <input type="text" name="brandname" class="form-control" id="inpBrandname" placeholder="brandname" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inpUsername" class="col-* control-label">Brand Description</label>
+                            <div class="col-*">
+                                <textarea class="form-control" name="branddescription" id="inpBranddescription" required="required"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inpUsername" class="col-* control-label">Brand Logo</label>
+                            <div class="col-*">
+                                <input type="text" name="brandlogo" class="form-control" id="inpbrandlogo" placeholder="brandlogo" required="required">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="SaveData()">Save changes</button>
+    </div>
+</div>
+
+<script>
+    function SaveData() {
+        showLoader()
+        debugger;
+        var formdata = $("#createBrand").serializeArray();
+        var modelData = {};
+        $(formdata).each(function (index, obj) {
+            modelData[obj.name] = obj.value;
+        });
+
+        $.ajax({
+            url: 'Admin/AddBrand',
+            type: 'POST',
+            dataType: 'JSON',
+            data : modelData,
+            success: function (data) {
+                debugger;
+                hideLoader()
+                $(`#adminPatial`).modal('hide');
+                showtoaster('Success');
+                window.location.reload();
+            },
+            error: function (request, error) {
+                debugger;
+                hideLoader()
+                showtoaster('Error');
+            }
+        });
+    }
+</script>

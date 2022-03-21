@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>ToasterJS: Non-blocking Toast Notification Examples</title>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <script src="src/toaster.js" charset="utf-8"></script>
+  <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+
+  <link rel="stylesheet" href="src/app.css">
+  <link rel="stylesheet" href="src/toaster.css">
+</head>
+<body>
+
+  <div class="flex">
+    <aside>
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="">Introduction</a></li>
+        <li><a href="">Install</a></li>
+      </ul>
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="#getting-started">Gettings started</a></li>
+        <li><a href="#hide-after">hideAfter</a></li>
+        <li><a href="#position">Position</a></li>
+        <li><a href="#stacking">Stacking</a></li>
+        <li><a href="#embed-html">Embed HTML</a></li>
+      </ul>
+    </aside>
+
+    <div class="container">
+      <article class="introduction">
+        <h1>ToasterJS: Non-blocking Toast Notification Examples</h1>
+        <div id="carbon-block"></div>
+<div><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+        <h2>A tiny jQuery plugin for creating toast-like notifications that disappear after a period of time set by the user.</h2>
+
+        <section id="getting-started">
+          <h3>Getting started</h3>
+          <p>To generate a basic toast, i.e upon clicking a button, call a <b>$.toast</b> function</p>
+          <script src="https://gist.github.com/rosshatokay/dee9093e99cedb368e886752b5638c70.js"></script>
+          <button class="btn primary toast-1">Click me to toast!</button>
+        </section>
+
+        <section id="hide-after">
+          <h3>hideAfter</h3>
+          <p>If you'd like to have the toasts to not fade away, disable the <b>hideAfter</b> property</p>
+          <script src="https://gist.github.com/rosshatokay/985b7681618e3146211279c917c84709.js"></script>
+          <button class="btn primary toast-2">Click me to toast!</button>
+        </section>
+
+        <section id="position">
+          <h3>Position</h3>
+          <p>Changing the position of the toasts is done by setting the <b>position</b>
+            property to one of the available position classes:</p>
+            <ul>
+              <li>bottom-left</li>
+              <li>bottom-right</li>
+              <li>top-left</li>
+              <li>top-right</li>
+            </ul>
+          <script src="https://gist.github.com/rosshatokay/dbbf4cc59d04e63c3499216c1e0f3212.js"></script>
+          <button class="btn primary toast-3">Click me to toast on the bottom left corner!</button>
+        </section>
+
+        <section id="stacking">
+          <h3>Stacking</h3>
+          <p>Enable or disable stacking of toast elements</p>
+
+          <script src="https://gist.github.com/rosshatokay/123a2a66cd38b045d7d082974289f1dc.js"></script>
+          <button class="btn primary toast-4">Click me to toast!</button>
+        </section>
+
+        <section id="embed-html">
+          <h3>Embed HTML</h3>
+          <p>You can even change the contents of the toast element to have
+            other HTML elements</p>
+
+          <script src="https://gist.github.com/rosshatokay/0ab65e78794f943b272b99bf9df26a05.js"></script>
+          <button class="btn primary toast-5">Click me to toast with HTML elements!</button>
+        </section>
+
+      </article>
+    </div>
+  </div>
+
+
+  <script>
+
+    $('.toast-1').click(function(){
+      $.toast({
+        content: "I'm a toaster",
+        position: "top-right"
+      })
+    })
+
+    $('.toast-2').click(function(){
+      $.toast({
+        content: "I'm a sticky toaster",
+        hideAfter: false
+      })
+    })
+
+    $('.toast-3').click(function(){
+      $.toast({
+        content: "I'm toasting in the corner!",
+        position: "bottom-left"
+      })
+    })
+
+    $('.toast-4').click(function(){
+      $.toast({
+        content: "I won't stack!",
+        stacking: false
+      })
+    })
+
+    $('.toast-5').click(function(){
+      $.toast({
+        content: '<span class="iconify" data-icon="fluent:warning-24-filled" data-height="24"></span> <a href="/" target="_blank">Toaster link!</a>',
+        position: "bottom-left"
+      })
+    })
+
+  </script>
+<script>
+try {
+  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
+    return true;
+  }).catch(function(e) {
+    var carbonScript = document.createElement("script");
+    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+    carbonScript.id = "_carbonads_js";
+    document.getElementById("carbon-block").appendChild(carbonScript);
+  });
+} catch (error) {
+  console.log(error);
+}
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
