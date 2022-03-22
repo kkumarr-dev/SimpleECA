@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
     <link href="~/lib/notification-toaster/src/toaster.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
         html {
             position: relative;
@@ -237,10 +238,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="~/lib/notification-toaster/src/toaster.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     <script>
+        $(document).ready(function () {
+            $('table').DataTable();
+        });
         function showLoader() {
             $('#seca-loader').addClass('is-active')
         }
@@ -256,18 +261,40 @@
             })
         }
         function openadminpartial(url, width) {
+            debugger;
             showLoader()
             $.ajax({
                 url: url,
                 type: 'GET',
                 /*dataType: '',*/
                 success: function (data) {
+                    debugger;
                     hideLoader()
                     $(`#partialContent`).html(data);
                     $(`#adminPatial`).modal('show');
                     $('.modal-dialog').css('max-width', `${width}px`)
                 },
                 error: function (request, error) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Error');
+                }
+            });
+        }
+        function bindpartial(url, selector) {
+            debugger;
+            showLoader()
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    debugger;
+                    hideLoader()
+                    $(selector).html(data);
+                    $('table').DataTable();
+                },
+                error: function (request, error) {
+                    debugger;
                     hideLoader()
                     showtoaster('Error');
                 }

@@ -14,6 +14,7 @@ namespace SimpleECA.Entities
         public string brandname { get; set; }
         public string branddescription { get; set; }
         public string? brandlogo { get; set; }
+        public bool? isactive { get; set; }
         public DateTime createdat { get; set; }
         public DateTime updatedat { get; set; }
     }

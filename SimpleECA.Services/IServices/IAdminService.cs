@@ -10,5 +10,7 @@ namespace SimpleECA.Services
     {
         Task<bool> CreateBrand(BrandViewModel model);
         Task<BrandViewModel> GetBrandById(int brandid);
+        Task<List<BrandViewModel>> AllBrands();
+        Task<bool> DeleteBrandById(int brandid);
     }
 }

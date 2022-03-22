@@ -40,6 +40,8 @@ namespace SimpleECA.WEB
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<ISaveFileToLocal, SaveFileToLocal>();
+
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IAuthRepo, AuthRepo>();
             services.AddTransient<IUserService, UserService>();

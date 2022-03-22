@@ -5,10 +5,40 @@
 
 <main class="content-wrapper">
     <div class="container-fluid">
-        <h1>Main Content</h1>
-        <h1>Main Content</h1>
-        <h1>Main Content</h1><h1>Main Content</h1><h1>Main Content</h1>
-        <h1>Main Content</h1>
-        <h1>Main Content</h1><h1>Main Content</h1><h1>Main Content</h1><h1>Main Content</h1><h1>Main Content</h1><h1>Main Content</h1>
+        <div id="admin-card" class="row">
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="card p-3 mb-2 bg-primary text-white" onclick="showContent('#content-view', '#admin-card'); bindpartial('@Url.Action("AllBrands","Admin")', '#content-view');">
+                    <p>Brands</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="card p-3 mb-2 bg-primary text-white">
+                    <p>Categories</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="card p-3 mb-2 bg-primary text-white">
+                    <p>Sub Categories</p>
+                </div>
+            </div>
+
+        </div>
+        <div id="content-view">
+
+        </div>
     </div>
 </main>
+<script>
+    $(document).ready(function () {
+        $('#content-view').hide();
+    });
+
+    function showContent(showSelector, hideSelector) {
+        debugger;
+        $(showSelector).show();
+        $(hideSelector).hide();
+    }
+</script>

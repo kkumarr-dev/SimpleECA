@@ -1,0 +1,81 @@
+﻿@model SimpleECA.Models.Admin.BrandViewModel
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Brand</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-12">
+                        <form class="form-horizontal" id="createBrand" data-toggle="validate" role="form">
+                            <div class="form-group">
+                                <label for="inpUsername" class="col-* control-label">Brand Name</label>
+                                <div class="col-*">
+                                    <input type="text" name="brandname" class="form-control" id="inpBrandname" placeholder="brandname" value="@Model.brandname" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inpUsername" class="col-* control-label">Brand Description</label>
+                                <div class="col-*">
+                                    <textarea class="form-control" name="branddescription" id="inpBranddescription" required="required">@Model.branddescription</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload Files</label>
+                                <div class="custom-file">
+                                    <input type="file" name="files[]" id="inpbrandlogo" accept="image/jpeg,image/jpg" class="custom-file-input form-control">
+                                    <label class="custom-file-label" for="customFile">Choose Image</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="SaveData()">Update changes</button>
+        </div>
+    </div>
+
+    <script>
+        function SaveData() {
+            showLoader()
+            debugger;
+            
+            var fd = new FormData();
+            fd.append("brandid",@(Model.brandid));
+            var file_data = $('input[type="file"]')[0].files; // for multiple files
+            for (var i = 0; i < file_data.length; i++) {
+                fd.append("brandlogo", file_data[i]);
+            }
+            var other_data = $('#createBrand').serializeArray();
+            $.each(other_data, function (key, input) {
+                fd.append(input.name, input.value);
+            });
+
+            $.ajax({
+                url: 'Admin/AddBrand',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: fd,
+                success: function (data) {
+                    debugger;
+                    hideLoader()
+                    $(`#adminPatial`).modal('hide');
+                    showtoaster('Success');
+                    window.location.reload();
+                },
+                error: function (request, error) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Error');
+                }
+            });
+        }
+    </script>

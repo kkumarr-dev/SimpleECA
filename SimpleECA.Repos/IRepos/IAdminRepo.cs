@@ -8,7 +8,9 @@ namespace SimpleECA.Repos
 {
     public interface IAdminRepo
     {
+        Task<List<BrandViewModel>> AllBrands();
         Task<bool> CreateBrand(BrandViewModel model);
         Task<BrandViewModel> GetBrandById(int brandid);
+        Task<bool> DeleteBrandById(int brandid);
     }
 }
