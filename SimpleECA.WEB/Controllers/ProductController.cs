@@ -33,7 +33,7 @@ namespace SimpleECA.WEB.Controllers
         public async Task<IActionResult> GetProductById(int productId)
         {
             var res = await _productService.GetProductById(productId);
-            return PartialView("_ProductOverViewPartial",res);
+            return PartialView("_ProductOverViewPartial", res);
         }
         [Authorize]
         public async Task<IActionResult> Cart()
@@ -68,6 +68,24 @@ namespace SimpleECA.WEB.Controllers
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.ProductAddtoWishList(productId, userid);
+            return Ok(res);
+        }
+        public async Task<IActionResult> SearchProducts(string searchText)
+        {
+            var res = await _productService.SearchProducts(searchText);
+            return PartialView("_SearchProductsResultPartial", res);
+        }
+
+        public async Task<IActionResult> ProductRemovetoCart(int productId)
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.ProductRemovetoCart(productId, userid);
+            return Ok(res);
+        }
+        public async Task<IActionResult> ProductRemovetoWishList(int productId)
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.ProductRemovetoWishList(productId, userid);
             return Ok(res);
         }
     }

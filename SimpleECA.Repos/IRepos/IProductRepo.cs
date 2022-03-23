@@ -14,5 +14,8 @@ namespace SimpleECA.Repos
         Task<List<ProductViewModel>> GetWishListProducts(int userid);
         Task<bool> ProductAddtoCart(int productId,int userid);
         Task<bool> ProductAddtoWishList(int productId, int userid);
+        Task<List<ProductViewModel>> SearchProducts(string searchText);
+        Task<bool> ProductRemovetoCart(int productId, int userid);
+        Task<bool> ProductRemovetoWishList(int productId, int userid);
     }
 }

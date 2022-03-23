@@ -40,7 +40,7 @@
                             <div class="row">
                                 <button onclick="ProductAddtoCart(@(item.productid))" class="btn btn-danger mt-1"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
                                 <div class="flex-grow-1"></div>
-                                <button onclick="ProductAddtoCart(@(item.productid))" class="btn btn-info mt-1"><i class="fa fa-shopping-cart"></i> Buy Now</button>
+                                <button class="btn btn-info mt-1"><i class="fa fa-shopping-cart"></i> Buy Now</button>
                             </div>
                         </div>
                     </div>
@@ -97,49 +97,4 @@
                 }]
             });
         })
-
-        function ProductAddtoWishList(productId) {
-            debugger;
-            showLoader();
-            $.ajax({
-                url: 'Product/ProductAddtoWishList',
-                type: 'POST',
-                dataType: 'json',
-                data: { productId: productId },
-                success: function (data) {
-                    debugger;
-                    hideLoader()
-                    showtoaster('Success');
-                    window.location.reload();
-                },
-                error: function (request, error) {
-                    debugger;
-                    hideLoader()
-                    showtoaster('Error');
-                    $(`#modalLRForm`).modal('show');
-                }
-            });
-        }
-        function ProductAddtoCart(productId) {
-            debugger;
-            showLoader();
-            $.ajax({
-                url: 'Product/ProductAddtoCart',
-                type: 'POST',
-                dataType: 'json',
-                data: { productId: productId },
-                success: function (data) {
-                    debugger;
-                    hideLoader()
-                    showtoaster('Success');
-                    window.location.reload();
-                },
-                error: function (request, error) {
-                    debugger;
-                    hideLoader()
-                    showtoaster('Error');
-                    $(`#modalLRForm`).modal('show');
-                }
-            });
-        }
     </script>

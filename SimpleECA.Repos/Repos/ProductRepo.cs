@@ -101,18 +101,18 @@ namespace SimpleECA.Repos
         public async Task<List<ProductViewModel>> GetCartProducts(int userid)
         {
             var productData = await GetAllProducts();
-            var cartdata = await _dBContext.TblUserCart.Where(x => x.userid == userid).Select(x=>x.productid).ToListAsync();
+            var cartdata = await _dBContext.TblUserCart.Where(x => x.userid == userid).Select(x => x.productid).ToListAsync();
             productData = productData.Where(x => cartdata.Contains(x.productid)).ToList();
             return productData;
         }
         public async Task<List<ProductViewModel>> GetWishListProducts(int userid)
         {
             var productData = await GetAllProducts();
-            var wldata = await _dBContext.TblUserWishList.Where(x => x.userid == userid).Select(x=>x.productid).ToListAsync();
+            var wldata = await _dBContext.TblUserWishList.Where(x => x.userid == userid).Select(x => x.productid).ToListAsync();
             productData = productData.Where(x => wldata.Contains(x.productid)).ToList();
             return productData;
         }
-        public async Task<bool> ProductAddtoCart(int productId,int userid)
+        public async Task<bool> ProductAddtoCart(int productId, int userid)
         {
             var tbldata = new TblUserCart
             {
@@ -122,6 +122,13 @@ namespace SimpleECA.Repos
                 createdat = DateTime.Now
             };
             await _dBContext.TblUserCart.AddAsync(tbldata);
+            return await _dBContext.SaveChangesAsync() > 0;
+        }
+        public async Task<bool> ProductRemovetoCart(int productId, int userid)
+        {
+            var tbldata = await _dBContext.TblUserCart.Where(x => x.productid == productId).ToListAsync();
+            tbldata.ForEach(x => x.isactive = false);
+            _dBContext.TblUserCart.UpdateRange(tbldata);
             return await _dBContext.SaveChangesAsync() > 0;
         }
         public async Task<bool> ProductAddtoWishList(int productId, int userid)
@@ -135,6 +142,20 @@ namespace SimpleECA.Repos
             };
             await _dBContext.TblUserWishList.AddAsync(tbldata);
             return await _dBContext.SaveChangesAsync() > 0;
+        }
+        public async Task<bool> ProductRemovetoWishList(int productId, int userid)
+        {
+            var tbldata = await _dBContext.TblUserWishList.Where(x => x.productid == productId).ToListAsync();
+            tbldata.ForEach(x => x.isactive = false);
+            _dBContext.TblUserWishList.UpdateRange(tbldata);
+            return await _dBContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<List<ProductViewModel>> SearchProducts(string searchText)
+        {
+            var allProducts = await GetAllProducts();
+            allProducts = allProducts.Where(x => x.productname.ToLower().Contains(searchText.ToLower())).ToList();
+            return allProducts;
         }
     }
 }

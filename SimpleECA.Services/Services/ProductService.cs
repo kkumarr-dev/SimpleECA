@@ -43,5 +43,17 @@ namespace SimpleECA.Services
         {
             return await _productRepo.ProductAddtoWishList(productId,userid);
         }
+        public async Task<List<ProductViewModel>> SearchProducts(string searchText)
+        {
+            return await _productRepo.SearchProducts(searchText);
+        }
+        public async Task<bool> ProductRemovetoCart(int productId, int userid)
+        {
+            return await _productRepo.ProductRemovetoCart(productId, userid);
+        }
+        public async Task<bool> ProductRemovetoWishList(int productId, int userid)
+        {
+            return await _productRepo.ProductRemovetoWishList(productId, userid);
+        }
     }
 }

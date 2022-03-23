@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('.search_popup').hide();
     $('.bannerCarousel').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -76,6 +77,109 @@ function bindpartial(url, selector) {
             $(selector).html(data);
             $('table').DataTable();
             $('select').selectpicker();
+        },
+        error: function (request, error) {
+            debugger;
+            hideLoader()
+            showtoaster('Error');
+        }
+    });
+}
+
+$(function () {
+    var minlength = 3;
+
+    $("#seca-search").keyup(function () {
+        debugger;
+        var that = this,
+            value = $(this).val();
+
+        if (value.length >= minlength) {
+            $.ajax({
+                type: "GET",
+                url: "/Product/SearchProducts",
+                data: {
+                    'searchText': value
+                },
+                dataType: "text",
+                success: function (res) {
+                    debugger;
+                    if (res) {
+                        $('.search_popup').show();
+                        $('.search_popup').html(res);
+                    }
+                }
+            });
+        } else {
+            $('.search_popup').hide();
+        }
+    });
+});
+
+
+$(document).on('click', 'body', function () {
+    debugger;
+    $('.search_popup').hide();
+})
+
+function ProductAddtoWishList(productId) {
+    debugger;
+    showLoader();
+    $.ajax({
+        url: 'Product/ProductAddtoWishList',
+        type: 'POST',
+        dataType: 'json',
+        data: { productId: productId },
+        success: function (data) {
+            debugger;
+            hideLoader()
+            showtoaster('Success');
+            window.location.reload();
+        },
+        error: function (request, error) {
+            debugger;
+            hideLoader()
+            showtoaster('Error');
+            $(`#modalLRForm`).modal('show');
+        }
+    });
+}
+function ProductAddtoCart(productId) {
+    debugger;
+    showLoader();
+    $.ajax({
+        url: 'Product/ProductAddtoCart',
+        type: 'POST',
+        dataType: 'json',
+        data: { productId: productId },
+        success: function (data) {
+            debugger;
+            hideLoader()
+            showtoaster('Success');
+            window.location.reload();
+        },
+        error: function (request, error) {
+            debugger;
+            hideLoader()
+            showtoaster('Error');
+            $(`#modalLRForm`).modal('show');
+        }
+    });
+}
+
+function ProductRemovetoCart(productId) {
+    debugger;
+    showLoader();
+    $.ajax({
+        url: 'Product/ProductRemovetoCart',
+        type: 'POST',
+        dataType: 'json',
+        data: { productId: productId },
+        success: function (data) {
+            debugger;
+            hideLoader()
+            showtoaster('Success');
+            window.location.reload();
         },
         error: function (request, error) {
             debugger;

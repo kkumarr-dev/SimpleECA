@@ -25,9 +25,9 @@
                 <h3 class="cost"><span class="glyphicon glyphicon-usd"></span>₹@(Model.price - ((Model.discount / 100) * Model.price)) <small class="pre-cost"><span class="glyphicon glyphicon-usd"></span>₹@Model.price</small></h3>
                 <div class="space-ten"></div>
                 <div class="btn-ground">
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart</button>
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart"></span> Add To Wishlist</button>
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart"></span> BUY</button>
+                    <button onclick="ProductAddtoCart(@(Model.productid))" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart</button>
+                    <button onclick="ProductAddtoWishList(@(Model.productid))" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart"></span> Add To Wishlist</button>
+                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-heart"></span> BUY</button>
                 </div>
             </div>
         </div>

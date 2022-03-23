@@ -77,6 +77,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <style>
+        .pos_rel{
+            position:relative;
+        }
+
+        .search_popup {
+            position: absolute;
+            top: 43px;
+            left: 0px;
+            width: 94%;
+            z-index: 999;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: #ddd 0px 0px 5px 1px;
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-primary">
@@ -87,10 +106,12 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <div class="flex-grow-1"></div>
             <div class="col-6 p-1 bg-light rounded rounded-pill shadow-sm pl-3">
-                <div class="input-group">
-                    <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                <div class="input-group pos_rel">
+                    <input type="search" id="seca-search" placeholder="Search Products" aria-describedby="seca-search-i" class="form-control border-0 bg-light">
                     <div class="input-group-append">
-                        <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                        <button id="seca-search-i" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                    </div>
+                    <div class="search_popup">
                     </div>
                 </div>
             </div>
@@ -102,12 +123,12 @@
                 }
                 else
                 {
-                    <li class="nav-link"><i class="fa fa-user-circle-o" aria-hidden="true" data-toggle="user-popover"></i></li>
+                    <li class="nav-link"><span data-toggle="user-popover">@(UserName)<i class="fa fa-user-circle-o" aria-hidden="true"></i></span></li>
                 }
                 <li>
                     <a class="nav-link" href="#" data-toggle="cart-popover">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
-                        <sup id="cart-count" class="small bg-danger rounded px-1">0</sup>
+                        <sup id="cart-count" class="badge badge-pill badge-danger">0</sup>
                     </a>
                 </li>
             </ul>
@@ -116,11 +137,10 @@
     <div id="user-profile" class="container d-none">
         <div class="row">
             <div class="col-12">
-                <h6 class="text-muted">@(UserName)</h6>
                 <ul class="list-group">
-                    <li class="list-group-item"><a class="nav-link" href="#"><i class="fa fa-money" aria-hidden="true"></i> Orders</a></li>
-                    <li class="list-group-item"><a class="nav-link" href="@Url.Action("GetWishListProducts","Product")"><i class="fa fa-heart" aria-hidden="true"></i> Wishlists</a></li>
-                    <li class="list-group-item"><a class="nav-link" href="@Url.Action("logout","u")"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                    <li class="list-group"><a class="nav-link" href="#"><i class="fa fa-money" aria-hidden="true"></i> Orders</a></li>
+                    <li class="list-group"><a class="nav-link" href="@Url.Action("GetWishListProducts","Product")"><i class="fa fa-heart" aria-hidden="true"></i> Wishlists</a></li>
+                    <li class="list-group"><a class="nav-link" href="@Url.Action("logout","u")"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -128,7 +148,7 @@
     <div id="user-cart" class="container d-none">
         <div class="row">
             <div class="col-12">
-                <h6 class="text-muted">Cart</h6>
+                @*<h6 class="text-muted">Cart</h6>*@
                 <ul id="nav-cart" class="list-group">
                 </ul>
                 <a href="@Url.Action("GetCartProducts","Product")"><h6 class="text-muted">View cart</h6></a>
@@ -390,7 +410,11 @@
                     $('#cart-count').text(data.length);
                     var cartContent = ``;
                     $.each(data, function (i, e) {
-                        cartContent += `<li class="list-group-item">${e.productname} - <span class="small">₹${e.price - ((e.discount / 100) * e.price)}</span></li>`
+                        cartContent += `<li class="list-group">
+                                            <p class="d-flex p-1 border-1">
+                                                <span class="pr-1 flex-grow-1">${e.productname}</span>
+                                            </p>
+                                        </li>`
                     });
                     $('#nav-cart').html(cartContent);
                 },

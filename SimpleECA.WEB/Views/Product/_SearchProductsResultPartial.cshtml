@@ -1,0 +1,31 @@
+﻿@model List<SimpleECA.Models.ProductViewModel>
+<div class="container-fluid">
+    <span>Search results</span>
+    <table class="table table-hover">
+        @if (Model.Count > 0)
+        {
+
+            @foreach (var item in Model)
+            {
+                <tr onclick="openadminpartial('@Url.Action("GetProductById","Product",new { productId = item.productid})',750)">
+                    <td style="width:50px;"><img style="width:30px;" src="data:image/jpg;base64,@(item.ProductImages.FirstOrDefault().imageurl)" /></td>
+                    <td>
+                        @item.productname
+                        <br />
+                        @if (item.shortdescription.Length>30)
+                        {
+                            @string.Concat(item.shortdescription.Substring(0, 30), "...")
+                        }
+                    </td>
+                    <td><span class="badge badge-pill badge-secondary">₹@(item.price - ((item.discount / 100) * item.price))</span></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>Sorry, no results found!</td>
+            </tr>
+        }
+    </table>
+</div>
