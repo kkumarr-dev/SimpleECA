@@ -43,7 +43,7 @@ namespace SimpleECA.WEB
             services.AddSession();
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            ClaimsHelper.AppAuthetication(services);
+            //ClaimsHelper.AppAuthetication(services);
 
             services.AddTransient<UserResolverService>();
             services.AddTransient<ISaveFileToLocal, SaveFileToLocal>();
@@ -65,10 +65,10 @@ namespace SimpleECA.WEB
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-                //.AddCookie(options =>
-                //{
-                //    options.LoginPath = "/u/login";
-                //})
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/u/login";
+                })
                     .AddGoogle(options =>
                     {
                         var googleAuthNSection = configuration.GetSection("Authentication:Google").Get<GoogleSecrets>();

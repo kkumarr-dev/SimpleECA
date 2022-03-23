@@ -32,14 +32,7 @@ namespace SimpleECA.Helpers.Authentication
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
-                //AllowRefresh = <bool>, 
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),                
-                //IsPersistent = true,
-                //IssuedUtc = <DateTimeOffset>,  
-                //RedirectUri = <string>
-            };
+            var authProperties = new AuthenticationProperties();
             return httpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),

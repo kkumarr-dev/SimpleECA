@@ -16,9 +16,6 @@ namespace SimpleECA.Entities
         public string GetUser()
         {
             return _context.HttpContext.User?.Identity?.Name;
-            //var claim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == claimType);
-
-            //return (claim != null) ? claim.Value : "0";
         }
     }
 }
