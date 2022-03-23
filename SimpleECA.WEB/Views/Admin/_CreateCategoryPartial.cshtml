@@ -1,0 +1,60 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-12">
+                    <form class="form-horizontal" id="createCategory" data-toggle="validate" role="form">
+                        <div class="form-group">
+                            <label for="inpUsername" class="col-* control-label">Category Name</label>
+                            <div class="col-*">
+                                <input type="text" name="categoryname" class="form-control" id="inpcategoryname" placeholder="categoryname" required="required">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="SaveData()">Save changes</button>
+    </div>
+</div>
+
+<script>
+    function SaveData() {
+        showLoader()
+        debugger;
+
+        var formdata = $("#createCategory").serializeArray();
+        var data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+
+        $.ajax({
+            url: 'Admin/AddCategory',
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                hideLoader()
+                $(`#adminPatial`).modal('hide');
+                showtoaster('Success');
+                window.location.reload();
+            },
+            error: function (request, error) {
+                debugger;
+                hideLoader()
+                showtoaster('Error');
+            }
+        });
+    }
+</script>

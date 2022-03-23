@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -67,29 +67,51 @@
 
                             <!--Body-->
                             <div class="modal-body mb-1">
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-envelope prefix"></i>
-                                    <input type="text" id="form22" class="form-control">
-                                    <label for="form22">Your email</label>
-                                </div>
-
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-lock prefix"></i>
-                                    <input type="password" id="form23" class="form-control">
-                                    <label for="form23">Your password</label>
-                                </div>
-                                <div class="text-center mt-2">
-                                    <button class="btn btn-info">Log in <i class="fa fa-sign-in ml-1"></i></button>
-                                </div>
+                                <form class="form-horizontal" id="loginForm">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Username" id="inpuser" name="username">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-lock2" viewBox="0 0 16 16">
+                                                    <path d="M8 5a1 1 0 0 1 1 1v1H7V6a1 1 0 0 1 1-1zm2 2.076V6a2 2 0 1 0-4 0v1.076c-.54.166-1 .597-1 1.224v2.4c0 .816.781 1.3 1.5 1.3h3c.719 0 1.5-.484 1.5-1.3V8.3c0-.627-.46-1.058-1-1.224z" />
+                                                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="Password" id="inppass" name="password">
+                                    </div>
+                                </form>
                             </div>
                             <!--Footer-->
                             <div class="modal-footer display-footer">
                                 <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
-                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fa fa-facebook-f mr-2"></i>Facebook</button>
+                                    <button type="button" class="btn btn-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
+                                        </svg>
+                                        FaceBook
+                                    </button>
                                 </a>
                                 <a href="@Url.Action("g-login","u")" class="m-1 text-decoration-none">
-                                    <button class="btn btn-lg btn-google btn-block text-uppercase"><i class="fa fa-google mr-2"></i>Google</button>
+                                    <button type="button" class="btn btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"></path>
+                                        </svg>
+                                        Google
+                                    </button>
                                 </a>
+                                <div class="text-center">
+                                    <button class="btn btn-info" onclick="userLogin()">Log in <i class="fa fa-sign-in ml-1"></i></button>
+                                </div>
                                 <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close <i class="fa fa-times-circle ml-1"></i></button>
                             </div>
 
@@ -100,51 +122,81 @@
 
                             <!--Body-->
                             <div class="modal-body">
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-envelope prefix"></i>
-                                    <input type="text" id="rfirstName" class="form-control">
-                                    <label for="form24">Your FirstName</label>
-                                </div>
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-envelope prefix"></i>
-                                    <input type="text" id="rlastName" class="form-control">
-                                    <label for="form24">Your LastName</label>
-                                </div>
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-envelope prefix"></i>
-                                    <input type="text" id="remail" class="form-control">
-                                    <label for="form24">Your Email</label>
-                                </div>
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-envelope prefix"></i>
-                                    <input type="text" id="rmobileno" class="form-control">
-                                    <label for="form24">Your MobileNumber</label>
-                                </div>
-
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-lock prefix"></i>
-                                    <input type="password" id="rpassword" class="form-control">
-                                    <label for="form25">Your password</label>
-                                </div>
-
-                                <div class="md-form form-sm">
-                                    <i class="fa fa-lock prefix"></i>
-                                    <input type="password" id="rpassword" class="form-control">
-                                    <label for="form26">Repeat password</label>
-                                </div>
-
-                                <div class="text-center form-sm mt-2">
-                                    <button class="btn btn-info">Sign up <i class="fa fa-sign-in ml-1"></i></button>
-                                </div>
+                                <form class="form-horizontal" id="registerForm">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="firstname" id="inpfirstname" name="firstname">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="lastname" id="inplastname" name="lastname">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="email" class="form-control" placeholder="email" id="inpemail" name="email">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="tel" class="form-control" placeholder="mobilenumber" id="inpmobilenumber" name="mobilenumber">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-lock2" viewBox="0 0 16 16">
+                                                    <path d="M8 5a1 1 0 0 1 1 1v1H7V6a1 1 0 0 1 1-1zm2 2.076V6a2 2 0 1 0-4 0v1.076c-.54.166-1 .597-1 1.224v2.4c0 .816.781 1.3 1.5 1.3h3c.719 0 1.5-.484 1.5-1.3V8.3c0-.627-.46-1.058-1-1.224z" />
+                                                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="password" id="inprpassword" name="rpassword">
+                                    </div>
+                                </form>
                             </div>
                             <!--Footer-->
                             <div class="modal-footer">
                                 <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
-                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fa fa-facebook-f mr-2"></i>Facebook</button>
+                                    <button type="button" class="btn btn-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
+                                        </svg>
+                                        FaceBook
+                                    </button>
                                 </a>
                                 <a href="@Url.Action("g-login","u")" class="m-1 text-decoration-none">
-                                    <button class="btn btn-lg btn-google btn-block text-uppercase"><i class="fa fa-google mr-2"></i>Google</button>
+                                    <button type="button" class="btn btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"></path>
+                                        </svg>
+                                        Google
+                                    </button>
                                 </a>
+                                <div class="text-center form-sm">
+                                    <button class="btn btn-info" onclick="userSignup()">Sign up <i class="fa fa-sign-in ml-1"></i></button>
+                                </div>
                                 <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close <i class="fa fa-times-circle ml-1"></i></button>
                             </div>
                         </div>
@@ -157,20 +209,18 @@
         </div>
     </div>
     <!--Modal: Login / Register Form-->
-
     <!-- Button trigger modal -->
     <!-- Modal -->
     <div class="modal fade drawer right-align" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Right Align Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -193,8 +243,67 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" ></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable();
+            $('select').selectpicker();
+        });
+        function userLogin() {
+            showLoader();
+            var formdata = $("#loginForm").serializeArray();
+            var data = {};
+            $(formdata).each(function (index, obj) {
+                data[obj.name] = obj.value;
+            });
+
+            $.ajax({
+                url: 'u/u-login',
+                type: 'POST',
+                dataType: 'json',
+                data: formdata,
+                success: function (data) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Success');
+                    window.location.reload();
+                },
+                error: function (request, error) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Error');
+                }
+            });
+        }
+        function userSignup() {
+            debugger;
+            showLoader();
+            var formdata = $("#registerForm").serializeArray();
+            var data = {};
+            $(formdata).each(function (index, obj) {
+                data[obj.name] = obj.value;
+            });
+
+            $.ajax({
+                url: 'u/u-register',
+                type: 'POST',
+                dataType: 'json',
+                data: formdata,
+                success: function (data) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Success');
+                    window.location.reload();
+                },
+                error: function (request, error) {
+                    debugger;
+                    hideLoader()
+                    showtoaster('Error');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

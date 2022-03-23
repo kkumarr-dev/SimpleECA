@@ -1,8 +1,10 @@
-﻿using SimpleECA.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SimpleECA.Entities;
 using SimpleECA.Helpers;
 using SimpleECA.Models.UserViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,21 +22,27 @@ namespace SimpleECA.Repos
 
         public async Task<bool> CreateUser(UserDetailsViewModel user)
         {
+            var res = false;
             if (user == null) return false;
-            var dbModel = new TblUserDetails
+            var usrData = await _dBContext.TblUserDetails.Where(x => x.email == user.email).FirstOrDefaultAsync();
+            if (usrData == null)
             {
-                createdon = DateTime.Now,
-                email = user.email,
-                firstname = user.firstname,
-                isactive = user.isactive,
-                lastname = user.lastname,
-                mobilenumber = user.mobilenumber,
-                updatedon = DateTime.Now,
-                userroleid = user.userroleid,
-                rpassword = AESCryptoHelper.Encrypt(user.rpassword, _appsettings.Secret.Key)
-            };
-            await _dBContext.TblUserDetails.AddAsync(dbModel);
-            return await _dBContext.SaveChangesAsync() > 0;
+                var dbModel = new TblUserDetails
+                {
+                    createdon = DateTime.Now,
+                    email = user.email,
+                    firstname = user.firstname,
+                    isactive = user.isactive,
+                    lastname = user.lastname,
+                    mobilenumber = user.mobilenumber,
+                    updatedon = DateTime.Now,
+                    userroleid = user.userroleid,
+                    rpassword = AESCryptoHelper.Encrypt(user.rpassword, _appsettings.Secret.Key)
+                };
+                await _dBContext.TblUserDetails.AddAsync(dbModel);
+            }
+            res = await _dBContext.SaveChangesAsync() > 0;
+            return res;
         }
     }
 }

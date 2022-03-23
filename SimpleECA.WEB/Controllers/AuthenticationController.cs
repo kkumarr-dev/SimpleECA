@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SimpleECA.Helpers.Authentication;
 using SimpleECA.Models;
 using SimpleECA.Models.UserViewModel;
 using SimpleECA.Services;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SimpleECA.WEB.Controllers
@@ -22,10 +24,12 @@ namespace SimpleECA.WEB.Controllers
     {
         private readonly IAuthService _authService;
         private IHttpContextAccessor _accessor;
-        public AuthenticationController(IAuthService authService, IHttpContextAccessor accessor)
+        private readonly IUserService _userService;
+        public AuthenticationController(IAuthService authService, IHttpContextAccessor accessor, IUserService userService)
         {
             _authService = authService;
             _accessor = accessor;
+            _userService = userService;
         }
         public IActionResult Index()
         {
@@ -36,12 +40,13 @@ namespace SimpleECA.WEB.Controllers
         {
             return View();
         }
-
+        [Route("u-register")]
         public async Task<IActionResult> Register(UserDetailsViewModel user)
         {
             var res = await _authService.CreateUser(user);
             return Ok(res);
         }
+        [Route("u-login")]
         public async Task<IActionResult> Login(AuthenticateRequestViewModel model)
         {
             var response = await _authService.Authenticate(model);
@@ -54,7 +59,7 @@ namespace SimpleECA.WEB.Controllers
         [Route("g-login")]
         public IActionResult GoogleLogin()
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("Index", "Home") };
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") }; //"Index", "Home"
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
@@ -64,15 +69,40 @@ namespace SimpleECA.WEB.Controllers
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             var claims = result.Principal.Identities
-                .FirstOrDefault().Claims.Select(claim => new
-                {
-                    claim.Issuer,
-                    claim.OriginalIssuer,
-                    claim.Type,
-                    claim.Value
-                });
+                .FirstOrDefault().Claims;
 
-            return Json(claims);
+            var userData = new AuthUserViewModel();
+
+            userData.FullName = claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
+            userData.Email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
+            userData.Username = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
+            userData.Password = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
+            userData.RoleId = 2;
+            if (claims.Any(x => x.Type == ClaimTypes.MobilePhone))
+            {
+                userData.PhoneNumber = claims.Where(x => x.Type == ClaimTypes.MobilePhone).FirstOrDefault().Value;
+            }
+            else
+            {
+                userData.PhoneNumber = "";
+            }
+
+            await ClaimsHelper.DoLogin(HttpContext, userData);
+
+            var createUser = new UserDetailsViewModel
+            {
+                email = userData.Email,
+                firstname = userData.FullName,
+                lastname = "",
+                isactive = true,
+                mobilenumber = userData.PhoneNumber,
+                userroleid = 4,
+                rpassword = userData.Password
+            };
+
+            var res = await _userService.CreateUser(createUser);
+
+            return RedirectToAction("Index", "Home");
         }
         [Route("f-login")]
         public IActionResult FacebookLogin()

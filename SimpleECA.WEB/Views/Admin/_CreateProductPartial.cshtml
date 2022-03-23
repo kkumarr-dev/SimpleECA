@@ -1,0 +1,163 @@
+﻿@model SimpleECA.Models.CreateNewProductViewModel
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-12">
+                    <form class="form-horizontal" id="createProduct" data-toggle="validate" role="form">
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product Name</label>
+                            <div class="col-12">
+                                <input type="text" name="productname" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">shortdescription</label>
+                            <div class="col-12">
+                                <textarea class="form-control" name="shortdescription" required="required"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">longdescription</label>
+                            <div class="col-12">
+                                <textarea class="form-control" name="longdescription" required="required" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product price</label>
+                            <div class="col-12">
+                                <input type="number" name="price" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product discount</label>
+                            <div class="col-12">
+                                <input type="number" name="discount" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product brand</label>
+                            <div class="col-12">
+                                <select class="form-control" name="brandId" data-live-search="true">
+                                    @foreach (var item in Model.brandViewModel)
+                                    {
+                                        <option value="@item.brandid">@item.brandname</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product category</label>
+                            <div class="col-12">
+                                <select class="form-control" name="categoryId" data-live-search="true">
+                                    @foreach (var item in Model.categoryViewModel)
+                                    {
+                                        <option value="@item.categoryid">@item.categoryname</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product Sub Category</label>
+                            <div class="col-12">
+                                <select class="form-control" name="subcatId" data-live-search="true">
+                                    @foreach (var item in Model.subCategoryViewModel)
+                                    {
+                                        <option value="@item.subcategoryid">@item.subcategoryname</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="col-12">Product Images</h5>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product Thumbanail</label>
+                            <div class="col-12">
+                                <div class="custom-file">
+                                    <input type="file" name="thumabnail[]" accept="image/jpeg,image/jpg" class="custom-file-input form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product banner</label>
+                            <div class="col-12">
+                                <div class="custom-file">
+                                    <input type="file" name="banner[]" accept="image/jpeg,image/jpg" class="custom-file-input form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-12 control-label">Product Images</label>
+                            <div class="col-12">
+                                <div class="custom-file">
+                                    <input type="file" name="iamges[]" accept="image/jpeg,image/jpg" class="custom-file-input form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="SaveData()">Save changes</button>
+    </div>
+</div>
+
+<script>
+    function SaveData() {
+        showLoader()
+        debugger;
+
+        var fd = new FormData();
+        var thumbanailImage = $('input[type="file"]')[0].files;
+        if (thumbanailImage.length) {
+            thumbanailImage[0].name = `${moment().format('DDMMMYYYHHMMSS')}${thumbanailImage[0].name}`;
+            fd.append("thumbanailFile", thumbanailImage[0]);
+        }
+
+        var bannerImage = $('input[type="file"]')[1].files;
+        if (bannerImage.length) {
+            bannerImage[0].name = `${moment().format('DDMMMYYYHHMMSS')}${bannerImage[0].name}`;
+            fd.append("bannerFile", bannerImage[0]);
+        }
+
+        var productImages = $('input[type="file"]')[2].files;
+        if (productImages.length) {
+            productImages[0].name = `${moment().format('DDMMMYYYHHMMSS')}${productImages[0].name}`;
+            fd.append("productFile", productImages[0]);
+        }
+        var formdata = $("#createProduct").serializeArray();
+        $.each(formdata, function (key, input) {
+            fd.append(input.name, input.value);
+        });
+
+        $.ajax({
+            url: 'Admin/CreateProducts',
+            type: 'POST',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                debugger;
+                hideLoader()
+                $(`#adminPatial`).modal('hide');
+                showtoaster('Success');
+                window.location.reload();
+            },
+            error: function (request, error) {
+                debugger;
+                hideLoader()
+                showtoaster('Error');
+            }
+        });
+    }
+</script>

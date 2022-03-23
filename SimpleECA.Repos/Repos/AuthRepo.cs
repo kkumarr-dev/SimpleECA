@@ -27,8 +27,13 @@ namespace SimpleECA.Repos
         public async Task<AuthenticateResponseViewModel> Authenticate(AuthenticateRequestViewModel model)
         {
             var userList = await GetAll();
-            var userdata = userList.Where(x => x.email == model.Username && x.rpassword == model.Password).FirstOrDefault();
+            var userdata = userList.Where(x => x.email == model.Username).FirstOrDefault();
             if (userdata == null) return null;
+            else
+            {
+                var dPassword = AESCryptoHelper.Decrypt(userdata.rpassword, _appSettings.Secret.Key);
+                if (dPassword != model.Password) return null;
+            }
 
             var user = new AuthUserViewModel()
             {
@@ -47,8 +52,9 @@ namespace SimpleECA.Repos
         public async Task<List<UserDetailsViewModel>> GetAll()
         {
 
-            var userdata = await _dBContext.TblUserDetails.Select(x=>
-            new UserDetailsViewModel {
+            var userdata = await _dBContext.TblUserDetails.Select(x =>
+            new UserDetailsViewModel
+            {
                 email = x.email,
                 firstname = x.firstname,
                 isactive = x.isactive,
@@ -58,10 +64,6 @@ namespace SimpleECA.Repos
                 userid = x.userid,
                 userroleid = x.userroleid
             }).ToListAsync();
-            //userdata.ForEach(e =>
-            //{
-            //    e.rpassword = AESCryptoHelper.Decrypt(e.rpassword,_appSettings.Secret.Key);
-            //});
             return userdata;
 
         }

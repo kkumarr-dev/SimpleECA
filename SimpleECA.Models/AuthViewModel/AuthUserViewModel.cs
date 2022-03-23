@@ -8,6 +8,8 @@ namespace SimpleECA.Models
     public class AuthUserViewModel
     {
         public int Id { get; set; }
+        public int RoleId { get; set; }
+        public int RoleName { get; set; }
         public string FullName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }

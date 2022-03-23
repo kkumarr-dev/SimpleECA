@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace SimpleECA.WEB.Controllers
 {
-    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

@@ -14,14 +14,20 @@
             </div>
 
             <div class="col-xs-12 col-sm-4">
-                <div class="card p-3 mb-2 bg-primary text-white">
+                <div class="card p-3 mb-2 bg-primary text-white" onclick="showContent('#content-view', '#admin-card'); bindpartial('@Url.Action("AllCategories","Admin")', '#content-view');">
                     <p>Categories</p>
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-4">
-                <div class="card p-3 mb-2 bg-primary text-white">
+                <div class="card p-3 mb-2 bg-primary text-white" onclick="showContent('#content-view', '#admin-card'); bindpartial('@Url.Action("AllSubCategories","Admin")', '#content-view');">
                     <p>Sub Categories</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="card p-3 mb-2 bg-primary text-white" onclick="showContent('#content-view', '#admin-card'); bindpartial('@Url.Action("AllSubCategories","Admin")', '#content-view');">
+                    <p>All Products</p>
                 </div>
             </div>
 

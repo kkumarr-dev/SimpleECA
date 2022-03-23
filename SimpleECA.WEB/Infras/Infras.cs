@@ -61,7 +61,7 @@ namespace SimpleECA.WEB
             })
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/u/login"; // Must be lowercase
+                    options.LoginPath = "/u/login";
                 })
                     .AddGoogle(options =>
                     {
