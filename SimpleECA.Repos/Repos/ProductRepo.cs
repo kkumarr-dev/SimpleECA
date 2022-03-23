@@ -112,11 +112,11 @@ namespace SimpleECA.Repos
             productData = productData.Where(x => wldata.Contains(x.productid)).ToList();
             return productData;
         }
-        public async Task<bool> ProductAddtoCart(int productId)
+        public async Task<bool> ProductAddtoCart(int productId,int userid)
         {
             var tbldata = new TblUserCart
             {
-                userid = _dBContext.UserId,
+                userid = userid,
                 productid = productId,
                 isactive = true,
                 createdat = DateTime.Now
@@ -124,11 +124,11 @@ namespace SimpleECA.Repos
             await _dBContext.TblUserCart.AddAsync(tbldata);
             return await _dBContext.SaveChangesAsync() > 0;
         }
-        public async Task<bool> ProductAddtoWishList(int productId)
+        public async Task<bool> ProductAddtoWishList(int productId, int userid)
         {
             var tbldata = new TblUserWishList
             {
-                userid = _dBContext.UserId,
+                userid = userid,
                 productid = productId,
                 isactive = true,
                 createdat = DateTime.Now

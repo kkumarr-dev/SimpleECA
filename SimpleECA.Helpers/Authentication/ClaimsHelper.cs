@@ -1,18 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using SimpleECA.Helpers.Enums;
 using SimpleECA.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleECA.Helpers.Authentication
 {
-    public class ClaimsHelper
+    public static class ClaimsHelper
     {
+        public static void AppAuthetication(IServiceCollection services)
+        {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie();
+        }
         public static Task DoLogin(HttpContext httpContext, AuthUserViewModel user)
         {
             var claims = new List<Claim>
@@ -37,6 +44,13 @@ namespace SimpleECA.Helpers.Authentication
                 CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
+        }
+
+        public static string GetSpecificClaim(this ClaimsIdentity claimsIdentity, string claimType)
+        {
+            var claim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == claimType);
+
+            return (claim != null) ? claim.Value : "0";
         }
     }
 }

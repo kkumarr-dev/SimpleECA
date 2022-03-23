@@ -9,21 +9,18 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
                     <div class="form-signin">
-                        <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                            <label for="inputEmail">Email address</label>
-                        </div>
+                        <form class="loginForm">
+                            <div class="form-label-group">
+                                <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
+                                <label for="inputEmail">Email address</label>
+                            </div>
 
-                        <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                            <label for="inputPassword">Password</label>
-                        </div>
-
-                        <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1">Remember password</label>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                            <div class="form-label-group">
+                                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                                <label for="inputPassword">Password</label>
+                            </div>
+                        </form>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" onclick="userLogin()">Sign in</button>
                         <hr class="my-4">
                         <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
                             <button class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fa fa-facebook-f mr-2"></i> Sign in with Facebook</button>
@@ -152,3 +149,32 @@
         overflow:hidden;
     }
 </style>
+
+<script>
+    function userLogin() {
+        showLoader();
+        var formdata = $("#loginForm").serializeArray();
+        var data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+
+        $.ajax({
+            url: 'u/u-login',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (res) {
+                debugger;
+                hideLoader()
+                showtoaster('Success');
+                window.location.reload();
+            },
+            error: function (request, error) {
+                debugger;
+                hideLoader()
+                showtoaster('Error');
+            }
+        });
+    }
+</script>

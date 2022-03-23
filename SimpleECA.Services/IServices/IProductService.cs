@@ -12,7 +12,7 @@ namespace SimpleECA.Services
         Task<ProductViewModel> GetProductById(int productId);
         Task<List<ProductViewModel>> GetCartProducts();
         Task<List<ProductViewModel>> GetWishListProducts();
-        Task<bool> ProductAddtoCart(int productId);
-        Task<bool> ProductAddtoWishList(int productId);
+        Task<bool> ProductAddtoCart(int productId,int userid);
+        Task<bool> ProductAddtoWishList(int productId, int userid);
     }
 }

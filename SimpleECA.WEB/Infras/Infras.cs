@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SimpleECA.Entities;
 using SimpleECA.Helpers;
+using SimpleECA.Helpers.Authentication;
 using SimpleECA.Repos;
 using SimpleECA.Services;
 using System;
@@ -38,8 +40,12 @@ namespace SimpleECA.WEB
             var fbSecret = configuration.GetSection("Authentication:FaceBook").Get<FaceBookSecrets>();
             services.AddSingleton(fbSecret);
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession();
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            ClaimsHelper.AppAuthetication(services);
 
+            services.AddTransient<UserResolverService>();
             services.AddTransient<ISaveFileToLocal, SaveFileToLocal>();
 
             services.AddTransient<IAuthService, AuthService>();
@@ -54,15 +60,15 @@ namespace SimpleECA.WEB
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc();
-            services.AddHttpContextAccessor();
+            services.AddMvc().AddSessionStateTempDataProvider();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/u/login";
-                })
+                //.AddCookie(options =>
+                //{
+                //    options.LoginPath = "/u/login";
+                //})
                     .AddGoogle(options =>
                     {
                         var googleAuthNSection = configuration.GetSection("Authentication:Google").Get<GoogleSecrets>();

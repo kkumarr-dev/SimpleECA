@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SimpleECA.Helpers.Authentication;
+using SimpleECA.Helpers.Enums;
 using SimpleECA.Models;
 using SimpleECA.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SimpleECA.WEB.Controllers
 {
+    //[Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -43,12 +47,14 @@ namespace SimpleECA.WEB.Controllers
         }
         public async Task<IActionResult> ProductAddtoCart(int productId)
         {
-            var res = await _productService.ProductAddtoCart(productId);
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.ProductAddtoCart(productId, userid);
             return Ok(res);
         }
         public async Task<IActionResult> ProductAddtoWishList(int productId)
         {
-            var res = await _productService.ProductAddtoWishList(productId);
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.ProductAddtoWishList(productId, userid);
             return Ok(res);
         }
     }

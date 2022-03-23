@@ -12,10 +12,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SimpleECA.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleECA.WEB.Controllers
 {
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;

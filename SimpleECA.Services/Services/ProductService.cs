@@ -34,14 +34,14 @@ namespace SimpleECA.Services
             return await _productRepo.GetWishListProducts();
         }
 
-        public async Task<bool> ProductAddtoCart(int productId)
+        public async Task<bool> ProductAddtoCart(int productId,int userid)
         {
-            return await _productRepo.ProductAddtoCart(productId);
+            return await _productRepo.ProductAddtoCart(productId, userid);
         }
 
-        public async Task<bool> ProductAddtoWishList(int productId)
+        public async Task<bool> ProductAddtoWishList(int productId, int userid)
         {
-            return await _productRepo.ProductAddtoWishList(productId);
+            return await _productRepo.ProductAddtoWishList(productId,userid);
         }
     }
 }

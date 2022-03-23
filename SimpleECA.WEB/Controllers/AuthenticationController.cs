@@ -50,10 +50,20 @@ namespace SimpleECA.WEB.Controllers
         public async Task<IActionResult> Login(AuthenticateRequestViewModel model)
         {
             var response = await _authService.Authenticate(model);
-
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
-
+            else
+            {
+                var userData = new AuthUserViewModel
+                {
+                    Email = response.Email,
+                    FullName = response.FullName,
+                    Id = response.Id,
+                    PhoneNumber = response.PhoneNumber,
+                    RoleId = response.RoleId
+                };
+                await ClaimsHelper.DoLogin(HttpContext, userData);
+            }
             return Ok(response);
         }
         [Route("g-login")]
@@ -70,44 +80,47 @@ namespace SimpleECA.WEB.Controllers
 
             var claims = result.Principal.Identities
                 .FirstOrDefault().Claims;
-
-            var userData = new AuthUserViewModel();
-
-            userData.FullName = claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
-            userData.Email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
-            userData.Username = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
-            userData.Password = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value;
-            userData.RoleId = 2;
-            if (claims.Any(x => x.Type == ClaimTypes.MobilePhone))
-            {
-                userData.PhoneNumber = claims.Where(x => x.Type == ClaimTypes.MobilePhone).FirstOrDefault().Value;
-            }
-            else
-            {
-                userData.PhoneNumber = "";
-            }
-
-            await ClaimsHelper.DoLogin(HttpContext, userData);
-
             var createUser = new UserDetailsViewModel
             {
-                email = userData.Email,
-                firstname = userData.FullName,
+                email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value,
+                firstname = claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value,
                 lastname = "",
                 isactive = true,
-                mobilenumber = userData.PhoneNumber,
                 userroleid = 4,
-                rpassword = userData.Password
+                rpassword = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value
             };
-
+            if (claims.Any(x => x.Type == ClaimTypes.MobilePhone))
+                createUser.mobilenumber = claims.Where(x => x.Type == ClaimTypes.MobilePhone).FirstOrDefault().Value;
+            else
+                createUser.mobilenumber = "";
+            
             var res = await _userService.CreateUser(createUser);
 
-            return RedirectToAction("Index", "Home");
+            var loginModel = new AuthenticateRequestViewModel
+            {
+                Username = createUser.email,
+                Password = createUser.rpassword
+            };
+            var response = await _authService.Authenticate(loginModel);
+            if (response != null)
+            {
+                var userData = new AuthUserViewModel
+                {
+                    Email = response.Email,
+                    FullName = response.FullName,
+                    Id = response.Id,
+                    PhoneNumber = response.PhoneNumber,
+                    RoleId = response.RoleId
+                };
+                await ClaimsHelper.DoLogin(HttpContext, userData);
+            }
+
+            return RedirectToAction("Index", "Product");
         }
         [Route("f-login")]
         public IActionResult FacebookLogin()
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("Index", "Home") };
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("FacebookResponse") };
             return Challenge(properties, FacebookDefaults.AuthenticationScheme);
         }
 
@@ -117,15 +130,43 @@ namespace SimpleECA.WEB.Controllers
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             var claims = result.Principal.Identities
-                .FirstOrDefault().Claims.Select(claim => new
-                {
-                    claim.Issuer,
-                    claim.OriginalIssuer,
-                    claim.Type,
-                    claim.Value
-                });
+                .FirstOrDefault().Claims;
+            var createUser = new UserDetailsViewModel
+            {
+                email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value,
+                firstname = claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value,
+                lastname = "",
+                isactive = true,
+                userroleid = 4,
+                rpassword = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value
+            };
+            if (claims.Any(x => x.Type == ClaimTypes.MobilePhone))
+                createUser.mobilenumber = claims.Where(x => x.Type == ClaimTypes.MobilePhone).FirstOrDefault().Value;
+            else
+                createUser.mobilenumber = "";
 
-            return Json(claims);
+            var res = await _userService.CreateUser(createUser);
+
+            var loginModel = new AuthenticateRequestViewModel
+            {
+                Username = createUser.email,
+                Password = createUser.rpassword
+            };
+            var response = await _authService.Authenticate(loginModel);
+            if (response != null)
+            {
+                var userData = new AuthUserViewModel
+                {
+                    Email = response.Email,
+                    FullName = response.FullName,
+                    Id = response.Id,
+                    PhoneNumber = response.PhoneNumber,
+                    RoleId = response.RoleId
+                };
+                await ClaimsHelper.DoLogin(HttpContext, userData);
+            }
+
+            return RedirectToAction("Index", "Product");
         }
 
         public async Task<IActionResult> GetAll()
@@ -142,8 +183,8 @@ namespace SimpleECA.WEB.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Authentication");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Product");
         }
     }
 }

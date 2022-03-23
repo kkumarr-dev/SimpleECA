@@ -42,10 +42,11 @@ namespace SimpleECA.Repos
                 Email = userdata.email,
                 PhoneNumber = userdata.mobilenumber,
                 Id = userdata.userid,
-                Password = userdata.rpassword
+                Password = userdata.rpassword,
+                RoleId = userdata.userroleid
             };
             var token = GenerateJwtToken.Generate(user, _appSettings.Secret.Key);
-
+            
             return new AuthenticateResponseViewModel(user, token);
         }
 
@@ -62,7 +63,7 @@ namespace SimpleECA.Repos
                 mobilenumber = x.mobilenumber,
                 rpassword = x.rpassword,
                 userid = x.userid,
-                userroleid = x.userroleid
+                userroleid = x.userroleid,
             }).ToListAsync();
             return userdata;
 
