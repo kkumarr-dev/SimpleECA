@@ -9,14 +9,14 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
                     <div class="form-signin">
-                        <form class="loginForm">
+                        <form id="loginForm">
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
+                                <input type="email" id="inputEmail" name="Username" class="form-control" placeholder="Email address" required autofocus>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" name="Password" class="form-control" placeholder="Password" required>
                                 <label for="inputPassword">Password</label>
                             </div>
                         </form>
@@ -152,6 +152,7 @@
 
 <script>
     function userLogin() {
+        debugger;
         showLoader();
         var formdata = $("#loginForm").serializeArray();
         var data = {};
@@ -160,15 +161,15 @@
         });
 
         $.ajax({
-            url: 'u/u-login',
+            url: '/u/u-login',
             type: 'POST',
             dataType: 'json',
-            data: data,
+            data: { model: data},
             success: function (res) {
                 debugger;
                 hideLoader()
                 showtoaster('Success');
-                window.location.reload();
+                window.location.href="/admin";
             },
             error: function (request, error) {
                 debugger;

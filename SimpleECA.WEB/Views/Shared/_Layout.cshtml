@@ -20,7 +20,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" />
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .modal.drawer {
+            display: flex !important;
+            pointer-events: none;
+        }
 
+            .modal.drawer * {
+                pointer-events: none;
+            }
+
+            .modal.drawer .modal-dialog {
+                margin: 0px;
+                display: flex;
+                flex: auto;
+                transform: translate(25%, 0);
+            }
+
+                .modal.drawer .modal-dialog .modal-content {
+                    border: none;
+                    border-radius: 0px;
+                }
+
+                    .modal.drawer .modal-dialog .modal-content .modal-body {
+                        overflow: auto;
+                    }
+
+            .modal.drawer.show {
+                pointer-events: auto;
+            }
+
+                .modal.drawer.show * {
+                    pointer-events: auto;
+                }
+
+                .modal.drawer.show .modal-dialog {
+                    transform: translate(0, 0);
+                }
+
+            .modal.drawer.right-align {
+                flex-direction: row-reverse;
+                padding: 0 !important;
+            }
+
+            .modal.drawer.left-align:not(.show) .modal-dialog {
+                transform: translate(-25%, 0);
+            }
+    </style>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -33,9 +79,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
-
-    @*<div class="container-fluid">
-        </div>*@
     <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-primary">
         <a class="navbar-brand" href="#">Simple ECA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -59,9 +102,14 @@
                 }
                 else
                 {
-                    <li class="nav-link"><i class="fa fa-user-circle-o" aria-hidden="true" data-toggle="popover"></i></li>
+                    <li class="nav-link"><i class="fa fa-user-circle-o" aria-hidden="true" data-toggle="user-popover"></i></li>
                 }
-                <li><a class="nav-link" href="@Url.Action("GetCartProducts","Product")"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+                <li>
+                    <a class="nav-link" href="#" data-toggle="cart-popover">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+                        <sup id="cart-count" class="small bg-danger rounded px-1">0</sup>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -77,31 +125,30 @@
             </div>
         </div>
     </div>
-    <!--Modal: Login / Register Form-->
+    <div id="user-cart" class="container d-none">
+        <div class="row">
+            <div class="col-12">
+                <h6 class="text-muted">Cart</h6>
+                <ul id="nav-cart" class="list-group">
+                </ul>
+                <a href="@Url.Action("GetCartProducts","Product")"><h6 class="text-muted">View cart</h6></a>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog cascading-modal" role="document">
-            <!--Content-->
             <div class="modal-content">
-
-                <!--Modal cascading tabs-->
                 <div class="modal-c-tabs">
-
-                    <!-- Nav tabs -->
                     <ul class="nav nav-tabs tabs-2 light-blue darken-3" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab"><i class="fa fa-user mr-1"></i> Login</a>
                         </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#panel8" role="tab"><i class="fa fa-user-plus mr-1"></i> Register</a>
-                            </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#panel8" role="tab"><i class="fa fa-user-plus mr-1"></i> Register</a>
+                        </li>
                     </ul>
-
-                    <!-- Tab panels -->
                     <div class="tab-content">
-                        <!--Panel 7-->
                         <div class="tab-pane fade in show active" id="panel7" role="tabpanel">
-
-                            <!--Body-->
                             <div class="modal-body mb-1">
                                 <form class="form-horizontal" id="loginForm">
                                     <div class="input-group mb-3">
@@ -127,7 +174,6 @@
                                     </div>
                                 </form>
                             </div>
-                            <!--Footer-->
                             <div class="modal-footer display-footer">
                                 <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
                                     <button type="button" class="btn btn-primary">
@@ -152,11 +198,7 @@
                             </div>
 
                         </div>
-                        <!--/.Panel 7-->
-                        <!--Panel 8-->
                         <div class="tab-pane fade" id="panel8" role="tabpanel">
-
-                            <!--Body-->
                             <div class="modal-body">
                                 <form class="form-horizontal" id="registerForm">
                                     <div class="input-group mb-3">
@@ -212,7 +254,6 @@
                                     </div>
                                 </form>
                             </div>
-                            <!--Footer-->
                             <div class="modal-footer">
                                 <a href="@Url.Action("f-login","u")" class="m-1 text-decoration-none">
                                     <button type="button" class="btn btn-primary">
@@ -236,36 +277,16 @@
                                 <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close <i class="fa fa-times-circle ml-1"></i></button>
                             </div>
                         </div>
-                        <!--/.Panel 8-->
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                </div>
-            </div>
-            <!--/.Content-->
+    <div class="modal fade drawer right-align" id="adminPatial" tabindex="-1" role="dialog" aria-labelledby="adminPatial" aria-hidden="true">
+        <div class="modal-dialog" id="partialContent">
         </div>
     </div>
-    <!--Modal: Login / Register Form-->
-    <!-- Button trigger modal -->
-    <!-- Modal -->
-    <div class="modal fade drawer right-align" id="exampleModalRight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Loader -->
     <div id="seca-loader" class="loader loader-default"></div>
     <div class="container-fluid">
         @RenderBody()
@@ -281,7 +302,7 @@
         $(document).ready(function () {
             $('table').DataTable();
             $('select').selectpicker();
-
+            Getcart()
         });
         function userLogin() {
             debugger;
@@ -338,7 +359,7 @@
             });
         }
 
-        $('[data-toggle="popover"]').popover({
+        $('[data-toggle="user-popover"]').popover({
             placement: 'bottom',
             container: 'body',
             html: true,
@@ -347,6 +368,37 @@
             }
         });
 
+        $('[data-toggle="cart-popover"]').popover({
+            placement: 'bottom',
+            container: 'body',
+            html: true,
+            content: function () {
+                return $('#user-cart').html();
+            }
+        });
+
+        function Getcart() {
+            showLoader();
+            $.ajax({
+                url: 'Product/GetCartProducts',
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    debugger;
+                    hideLoader()
+                    $('#nav-cart').html('');
+                    $('#cart-count').text(data.length);
+                    var cartContent = ``;
+                    $.each(data, function (i, e) {
+                        cartContent += `<li class="list-group-item">${e.productname} - <span class="small">₹${e.price - ((e.discount / 100) * e.price)}</span></li>`
+                    });
+                    $('#nav-cart').html(cartContent);
+                },
+                error: function (request, error) {
+                    hideLoader()
+                }
+            });
+        }
     </script>
 </body>
 </html>

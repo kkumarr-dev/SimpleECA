@@ -98,17 +98,17 @@ namespace SimpleECA.Repos
                              }).FirstOrDefaultAsync();
             return res;
         }
-        public async Task<List<ProductViewModel>> GetCartProducts()
+        public async Task<List<ProductViewModel>> GetCartProducts(int userid)
         {
             var productData = await GetAllProducts();
-            var cartdata = await _dBContext.TblUserCart.Where(x => x.userid == _dBContext.UserId).Select(x=>x.productid).ToListAsync();
+            var cartdata = await _dBContext.TblUserCart.Where(x => x.userid == userid).Select(x=>x.productid).ToListAsync();
             productData = productData.Where(x => cartdata.Contains(x.productid)).ToList();
             return productData;
         }
-        public async Task<List<ProductViewModel>> GetWishListProducts()
+        public async Task<List<ProductViewModel>> GetWishListProducts(int userid)
         {
             var productData = await GetAllProducts();
-            var wldata = await _dBContext.TblUserWishList.Where(x => x.userid == _dBContext.UserId).Select(x=>x.productid).ToListAsync();
+            var wldata = await _dBContext.TblUserWishList.Where(x => x.userid == userid).Select(x=>x.productid).ToListAsync();
             productData = productData.Where(x => wldata.Contains(x.productid)).ToList();
             return productData;
         }

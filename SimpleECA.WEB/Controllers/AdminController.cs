@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using SimpleECA.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using SimpleECA.Helpers.Enums;
+using SimpleECA.Helpers.Authentication;
 
 namespace SimpleECA.WEB.Controllers
 {
@@ -32,7 +35,15 @@ namespace SimpleECA.WEB.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var Roleid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.RoleId));
+            if (Roleid==3)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("login", "u");
+            }
         }
         public IActionResult CreateBrand()
         {

@@ -24,14 +24,14 @@ namespace SimpleECA.Services
             return await _productRepo.GetAllProducts();
         }
 
-        public async Task<List<ProductViewModel>> GetCartProducts()
+        public async Task<List<ProductViewModel>> GetCartProducts(int userid)
         {
-            return await _productRepo.GetCartProducts();
+            return await _productRepo.GetCartProducts(userid);
         }
 
-        public async Task<List<ProductViewModel>> GetWishListProducts()
+        public async Task<List<ProductViewModel>> GetWishListProducts(int userid)
         {
-            return await _productRepo.GetWishListProducts();
+            return await _productRepo.GetWishListProducts(userid);
         }
 
         public async Task<bool> ProductAddtoCart(int productId,int userid)

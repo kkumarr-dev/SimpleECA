@@ -33,24 +33,37 @@ namespace SimpleECA.WEB.Controllers
         public async Task<IActionResult> GetProductById(int productId)
         {
             var res = await _productService.GetProductById(productId);
+            return PartialView("_ProductOverViewPartial",res);
+        }
+        [Authorize]
+        public async Task<IActionResult> Cart()
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetCartProducts(userid);
             return View(res);
         }
+        [Authorize]
         public async Task<IActionResult> GetCartProducts()
         {
-            var res = await _productService.GetCartProducts();
-            return View(res);
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetCartProducts(userid);
+            return Ok(res);
         }
+        [Authorize]
         public async Task<IActionResult> GetWishListProducts()
         {
-            var res = await _productService.GetWishListProducts();
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetWishListProducts(userid);
             return View(res);
         }
+        [Authorize]
         public async Task<IActionResult> ProductAddtoCart(int productId)
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.ProductAddtoCart(productId, userid);
             return Ok(res);
         }
+        [Authorize]
         public async Task<IActionResult> ProductAddtoWishList(int productId)
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
