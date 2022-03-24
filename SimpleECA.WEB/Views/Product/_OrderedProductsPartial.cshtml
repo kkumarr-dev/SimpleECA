@@ -1,0 +1,76 @@
+﻿@model List<SimpleECA.Models.OrderViewModel>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row p-3">
+            @if (Model != null && Model.Count > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    var adr = item.OrderedAddress;
+                    var prd = item.OrderedProducts;
+            <div class="border">
+                <div class="p-3" style="border: 1px solid #F1F3F4; background: #F1F3F4 ">
+                    <div class="d-flex">
+                        <span>Ordered Date:</span>
+                        <div class="flex-grow-1"></div>
+                        <strong>@item.ordereddate.ToString("dd MMM yyyy")</strong>
+                    </div>
+                    <div class="d-flex">
+                        <span>Total Amount:</span>
+                        <div class="flex-grow-1"></div>
+                        <strong><i class="fa fa-inr" aria-hidden="true"></i>@(Convert.ToInt32(item.price))</strong>
+                    </div>
+                    <div class="pt-2 pb-2">
+                        <span class="d-block">Shipping Address:</span>
+                        <span class="d-block"><i class="fa fa-map-marker" aria-hidden="true"></i> @($"{adr.addressline1} {adr.addressline2}, {adr.district},{adr.state} {adr.pincode}")</span>
+                        <span class="text-muted"><i class="fa fa-phone-square" aria-hidden="true"></i> @adr.contactnumber</span>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    @if (prd.Count > 0)
+                    {
+                        @foreach (var pr in prd)
+                        {
+                            <tr onclick="openadminpartial('@Url.Action("GetProductById","Product",new { productId = pr.productid})',750)">
+                                <td style="width:50px;"><img style="width:30px;" src="data:image/jpg;base64,@(pr.ProductImages.FirstOrDefault().imageurl)" /></td>
+                                <td>
+                                    @pr.productname
+                                    <br />
+                                    @if (pr.shortdescription.Length > 30)
+                                    {
+                                        @string.Concat(pr.shortdescription.Substring(0, 30), "...")
+                                    }
+                                </td>
+                                <td><span class="badge badge-pill badge-secondary"><i class="fa fa-inr" aria-hidden="true"></i>@(Convert.ToInt32(pr.discountprice))</span></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+                }
+            }
+            else
+            {
+                <span>Empty</span>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    .product_img {
+        position: relative;
+        height: 300px;
+    }
+
+        .product_img img {
+            width: 100%;
+            object-fit: contain;
+            height: 100%;
+        }
+</style>

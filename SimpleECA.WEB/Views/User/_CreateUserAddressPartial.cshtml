@@ -1,0 +1,130 @@
+﻿@model List<SimpleECA.Models.ProductViewModel>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid row">
+            <form id="saveAddress">
+                <div class="mb-3">
+                    <label for="address">Address Line 1 </label>
+                    <input type="text" class="form-control" name="addressline1" placeholder="1234 Main St" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" name="addressline2" placeholder="Apartment or suite">
+                </div>
+                <div class="mb-3">
+                    <label for="address2">Contact Number <span class="text-muted">(Optional)</span></label>
+                    <input type="number" class="form-control" name="contactnumber" >
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <select class="d-block w-100" name="state" id="state" data-live-search="true" required>
+                            <option value="">Choose...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">District</label>
+                        <select class="d-block w-100" name="district" id="district" data-live-search="true" required>
+                            <option value="">Choose...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="zip">PinCode</label>
+                        <input type="number" class="form-control" name="pincode"  required>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="istemp" id="save-info">
+                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                </div>
+                <hr class="mb-4">
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="flex-grow-1"></div>
+        <button class="btn btn-primary" onclick="SaveData()">Save Address</button>
+    </div>
+</div>
+
+<script>
+    function SaveData() {
+        showLoader()
+        var formdata = $("#saveAddress").serializeArray();
+        var data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+
+        $.ajax({
+            url: '/user/SaveUserAddress',
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                 openadminpartial('@Url.Action("cart","Product")',450)
+            },
+            error: function (request, error) {
+                window.location.reload();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kkumarr-dev/Indian-States-And-Districts/master/states-and-districts.json',
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                if (data.states) {
+                    var sel = $('#state');
+                    sel.append(`<option value="0">Select State</option>`);
+                    $.each(data.states, function (i, e) {
+                        sel.append(`<option value="${e.state}">${e.state}</option>`);
+                    });
+                }
+                 sel.selectpicker('refresh');
+                 sel.selectpicker();
+            },
+            error: function (request, error) {
+                window.location.reload();
+            }
+        });
+    })
+    $(document).on('change', '#state', function () {
+        var state = $('#state').val();
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kkumarr-dev/Indian-States-And-Districts/master/states-and-districts.json',
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                if (data.states) {
+                    var sel = $('#district');
+                    sel.append(`<option value="0">Select District</option>`);
+                    $.each(data.states, function (i, e) {
+                        if (e.state == state) {
+                            $.each(e.districts, function (j, f) {
+                                    sel.append(`<option value="${f}">${f}</option>`);
+                            });
+                        }
+                    });
+                }
+                sel.selectpicker('refresh');
+                sel.selectpicker();
+            },
+            error: function (request, error) {
+                $(`#adminPatial`).modal('show');
+                window.location.reload();
+            }
+        });
+    })
+</script>

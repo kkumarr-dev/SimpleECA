@@ -78,8 +78,8 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <style>
-        .pos_rel{
-            position:relative;
+        .pos_rel {
+            position: relative;
         }
 
         .search_popup {
@@ -105,7 +105,7 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <div class="flex-grow-1"></div>
-            <div class="col-6 p-1 bg-light rounded rounded-pill shadow-sm pl-3">
+            <div class="col-md-6 col-sm-12 col-xs-12 p-1 bg-light rounded rounded-pill shadow-sm pl-3">
                 <div class="input-group pos_rel">
                     <input type="search" id="seca-search" placeholder="Search Products" aria-describedby="seca-search-i" class="form-control border-0 bg-light">
                     <div class="input-group-append">
@@ -126,7 +126,7 @@
                     <li class="nav-link"><span data-toggle="user-popover">@(UserName)<i class="fa fa-user-circle-o" aria-hidden="true"></i></span></li>
                 }
                 <li>
-                    <a class="nav-link" href="#" data-toggle="cart-popover">
+                    <a class="nav-link" href="#" onclick="openadminpartial('@Url.Action("cart","Product")',450)">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
                         <sup id="cart-count" class="badge badge-pill badge-danger">0</sup>
                     </a>
@@ -138,8 +138,8 @@
         <div class="row">
             <div class="col-12">
                 <ul class="list-group">
-                    <li class="list-group"><a class="nav-link" href="#"><i class="fa fa-money" aria-hidden="true"></i> Orders</a></li>
-                    <li class="list-group"><a class="nav-link" href="@Url.Action("GetWishListProducts","Product")"><i class="fa fa-heart" aria-hidden="true"></i> Wishlists</a></li>
+                    <li class="list-group"><a class="nav-link" href="#" onclick="openadminpartial('@Url.Action("GetOrderedProducts","Product")',450)"><i class="fa fa-money" aria-hidden="true"></i> Orders</a></li>
+                    <li class="list-group"><a class="nav-link" href="#" onclick="openadminpartial('@Url.Action("wishlist","Product")',450)"><i class="fa fa-heart" aria-hidden="true"></i> Wishlists</a></li>
                     <li class="list-group"><a class="nav-link" href="@Url.Action("logout","u")"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                 </ul>
             </div>
@@ -151,7 +151,7 @@
                 @*<h6 class="text-muted">Cart</h6>*@
                 <ul id="nav-cart" class="list-group">
                 </ul>
-                <a href="@Url.Action("GetCartProducts","Product")"><h6 class="text-muted">View cart</h6></a>
+                <a class="text-center" href="@Url.Action("GetCartProducts","Product")"><h6 class="text-muted">View cart</h6></a>
             </div>
         </div>
     </div>
@@ -312,10 +312,13 @@
         @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - SimpleECA
-        </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2022 - SimpleECA</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
     </footer>
     @RenderSection("Scripts", required: false)
     <script>
@@ -383,6 +386,7 @@
             placement: 'bottom',
             container: 'body',
             html: true,
+            sanitize: false,
             content: function () {
                 return $('#user-profile').html();
             }
@@ -392,6 +396,7 @@
             placement: 'bottom',
             container: 'body',
             html: true,
+            sanitize: false,
             content: function () {
                 return $('#user-cart').html();
             }
@@ -411,10 +416,10 @@
                     var cartContent = ``;
                     $.each(data, function (i, e) {
                         cartContent += `<li class="list-group">
-                                            <p class="d-flex p-1 border-1">
-                                                <span class="pr-1 flex-grow-1">${e.productname}</span>
-                                            </p>
-                                        </li>`
+                                                    <p class="d-flex p-1 border-1">
+                                                        <span class="pr-1 flex-grow-1">${e.productname}</span>
+                                                    </p>
+                                                </li>`
                     });
                     $('#nav-cart').html(cartContent);
                 },

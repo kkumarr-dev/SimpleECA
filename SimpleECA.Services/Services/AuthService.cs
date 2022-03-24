@@ -1,6 +1,5 @@
 ﻿using SimpleECA.Entities;
 using SimpleECA.Models;
-using SimpleECA.Models.UserViewModel;
 using SimpleECA.Repos;
 using System;
 using System.Collections.Generic;

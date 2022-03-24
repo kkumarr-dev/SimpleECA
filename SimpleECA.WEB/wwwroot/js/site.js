@@ -60,8 +60,10 @@ function openadminpartial(url, width) {
         },
         error: function (request, error) {
             debugger;
+            if (request.status == 401) {
+                $(`#modalLRForm`).modal('show');
+            }
             hideLoader()
-            showtoaster('Error');
         }
     });
 }
@@ -81,7 +83,9 @@ function bindpartial(url, selector) {
         error: function (request, error) {
             debugger;
             hideLoader()
-            showtoaster('Error');
+            if (request.status == 401) {
+                $(`#modalLRForm`).modal('show');
+            }
         }
     });
 }
@@ -140,7 +144,9 @@ function ProductAddtoWishList(productId) {
             debugger;
             hideLoader()
             showtoaster('Error');
-            $(`#modalLRForm`).modal('show');
+            if (request.status == 401) {
+                $(`#modalLRForm`).modal('show');
+            }
         }
     });
 }
@@ -162,7 +168,9 @@ function ProductAddtoCart(productId) {
             debugger;
             hideLoader()
             showtoaster('Error');
-            $(`#modalLRForm`).modal('show');
+            if (request.status == 401) {
+                $(`#modalLRForm`).modal('show');
+            }
         }
     });
 }
@@ -184,7 +192,22 @@ function ProductRemovetoCart(productId) {
         error: function (request, error) {
             debugger;
             hideLoader()
-            showtoaster('Error');
+            if (request.status == 401) {
+                $(`#modalLRForm`).modal('show');
+            }
         }
     });
 }
+
+$(document).on('click', 'body', function (e) {
+    $('[data-toggle="user-popover"]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+    $('[data-toggle="cart-popover"]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+});

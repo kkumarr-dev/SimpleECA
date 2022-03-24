@@ -1,0 +1,22 @@
+﻿@model List<SimpleECA.Models.UserAddressViewModel>
+<div class="container-fluid">
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="d-flex p-3" style="border: 1px solid #F1F3F4; background: #F1F3F4 ">
+                <div class="pr-2">
+                    <input type="radio" name="addressid" value="@item.addressid">
+                </div>
+                <span class="d-block"><i class="fa fa-map-marker" aria-hidden="true"></i> @($"{item.addressline1} {item.addressline2}, {item.district},{item.state} {item.pincode}")</span>
+                <div class="flex-grow-1"></div>
+                <span class="text-muted"><i class="fa fa-phone-square" aria-hidden="true"></i> @item.contactnumber</span>
+            </div>
+        }
+    }
+    <div class="float-right pt-2">
+        <div>
+            <button class="btn btn-outline-danger small" onclick="openadminpartial('@Url.Action("CreateUserAddress","user")',450)">Create New Address</button>
+        </div>
+    </div>
+</div>

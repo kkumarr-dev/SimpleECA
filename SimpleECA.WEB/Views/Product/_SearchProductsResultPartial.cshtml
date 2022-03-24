@@ -16,6 +16,10 @@
                         {
                             @string.Concat(item.shortdescription.Substring(0, 30), "...")
                         }
+                        else
+                        {
+                            @item.shortdescription
+                        }
                     </td>
                     <td><span class="badge badge-pill badge-secondary">₹@(item.price - ((item.discount / 100) * item.price))</span></td>
                 </tr>

@@ -55,5 +55,13 @@ namespace SimpleECA.Services
         {
             return await _productRepo.ProductRemovetoWishList(productId, userid);
         }
+        public async Task<bool> UserCheckOut(UserCheckOutViewModel model)
+        {
+            return await _productRepo.UserCheckOut(model);
+        }
+        public async Task<List<OrderViewModel>> GetOrderedProducts(int userid)
+        {
+            return await _productRepo.GetOrderedProducts(userid);
+        }
     }
 }

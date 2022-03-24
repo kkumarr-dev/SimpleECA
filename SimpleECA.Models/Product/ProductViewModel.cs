@@ -11,12 +11,14 @@ namespace SimpleECA.Models
         public int productid { get; set; }
         public string productname { get; set; }
         public float price { get; set; }
+        public float discountprice { get; set; }
         public float discount { get; set; }
         public string shortdescription { get; set; }
         public string longdescription { get; set; }
         public bool iswishlist { get; set; }
         public bool iscart { get; set; }
         public bool isinoffer { get; set; }
+        public bool isordered { get; set; }
         public List<ProductImages> ProductImages { get; set; }
         public int brandId { get; set; }
         public string brandName { get; set; }

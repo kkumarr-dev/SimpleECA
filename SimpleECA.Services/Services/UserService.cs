@@ -1,4 +1,4 @@
-﻿using SimpleECA.Models.UserViewModel;
+﻿using SimpleECA.Models;
 using SimpleECA.Repos;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,14 @@ namespace SimpleECA.Services
         public async Task<bool> CreateUser(UserDetailsViewModel user)
         {
             return await _userRepo.CreateUser(user);
+        }
+        public async Task<bool> CreateUserAddress(UserAddressViewModel model)
+        {
+            return await _userRepo.CreateUserAddress(model);
+        }
+        public async Task<List<UserAddressViewModel>> GetUserAddressList(int userid)
+        {
+            return await _userRepo.GetUserAddressList(userid);
         }
     }
 }

@@ -37,5 +37,6 @@ namespace SimpleECA.Entities
         public virtual DbSet<TblUserOrders> TblUserOrders { get; set; }
         public virtual DbSet<TblOrderProductMapping> TblOrderProductMapping { get; set; }
         public virtual DbSet<TblUserCart> TblUserCart { get; set; }
+        public virtual DbSet<TblUserAddress> TblUserAddress { get; set; }
     }
 }

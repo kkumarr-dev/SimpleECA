@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleECA.Helpers.Authentication;
 using SimpleECA.Models;
-using SimpleECA.Models.UserViewModel;
 using SimpleECA.Services;
 using SimpleECA.WEB.Models;
 using System;

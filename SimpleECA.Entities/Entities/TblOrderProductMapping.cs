@@ -13,8 +13,9 @@ namespace SimpleECA.Entities
         public int mappingid { get; set; }
         public int orderid { get; set; }
         public int productid { get; set; }
-        public int isremoved { get; set; }
-        public int createdat { get; set; }
+        public bool isremoved { get; set; }
+        public DateTime createdat { get; set; }
+        public double? price { get; set; }
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleECA.Entities;
 using SimpleECA.Helpers;
-using SimpleECA.Models.UserViewModel;
+using SimpleECA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +43,46 @@ namespace SimpleECA.Repos
             }
             res = await _dBContext.SaveChangesAsync() > 0;
             return res;
+        }
+        public async Task<bool> CreateUserAddress(UserAddressViewModel model)
+        {
+            var dbModel = new TblUserAddress
+            {
+                addressline1 = model.addressline1,
+                addressline2 = model.addressline2,
+                contactnumber = model.contactnumber,
+                createdat = DateTime.Now,
+                district = model.district,
+                isactive = true,
+                pincode = model.pincode,
+                state = model.state,
+                updatedat = DateTime.Now,
+                userid = model.userid,
+                istemp = model.istemp?false:true
+            };
+            await _dBContext.TblUserAddress.AddAsync(dbModel);
+            var res = await _dBContext.SaveChangesAsync() > 0;
+            return res;
+        }
+        public async Task<List<UserAddressViewModel>> GetUserAddressList(int userid)
+        {
+            var data = await _dBContext.TblUserAddress
+                .Where(x => x.userid == userid)
+                .Select(x =>
+                new UserAddressViewModel
+                {
+                    addressid = x.addressid,
+                    userid = x.userid,
+                    addressline1 = x.addressline1,
+                    addressline2 = x.addressline2 ?? "",
+                    contactnumber = x.contactnumber,
+                    district = x.district,
+                    istemp = x.istemp ?? false,
+                    pincode = x.pincode,
+                    state = x.state
+                })
+                .ToListAsync();
+            return data;
         }
     }
 }

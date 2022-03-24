@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SimpleECA.Entities
+namespace SimpleECA.Models
 {
-    [Table("tbluserorders")]
-    public class TblUserOrders
+    public class OrderViewModel
     {
-        [Key]
         public int orderid { get; set; }
         public int userid { get; set; }
         public DateTime ordereddate { get; set; }
@@ -22,6 +18,7 @@ namespace SimpleECA.Entities
         public bool? ispaid { get; set; }
         public double? price { get; set; }
         public int? addressid { get; set; }
-
+        public UserAddressViewModel OrderedAddress { get; set; }
+        public List<ProductViewModel> OrderedProducts { get; set; }
     }
 }

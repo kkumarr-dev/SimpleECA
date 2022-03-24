@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using SimpleECA.Entities;
 using SimpleECA.Helpers;
 using SimpleECA.Models;
-using SimpleECA.Models.UserViewModel;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

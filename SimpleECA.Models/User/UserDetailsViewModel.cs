@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleECA.Models.UserViewModel
+namespace SimpleECA.Models
 {
     public class UserDetailsViewModel
     {

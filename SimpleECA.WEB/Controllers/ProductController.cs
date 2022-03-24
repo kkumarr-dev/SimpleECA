@@ -40,7 +40,7 @@ namespace SimpleECA.WEB.Controllers
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.GetCartProducts(userid);
-            return View(res);
+            return PartialView("_UserCartPartial", res);
         }
         [Authorize]
         public async Task<IActionResult> GetCartProducts()
@@ -50,11 +50,18 @@ namespace SimpleECA.WEB.Controllers
             return Ok(res);
         }
         [Authorize]
+        public async Task<IActionResult> WishList()
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetWishListProducts(userid);
+            return PartialView("_UserWishListPartial", res);
+        }
+        [Authorize]
         public async Task<IActionResult> GetWishListProducts()
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.GetWishListProducts(userid);
-            return View(res);
+            return Ok(res);
         }
         [Authorize]
         public async Task<IActionResult> ProductAddtoCart(int productId)
@@ -76,17 +83,50 @@ namespace SimpleECA.WEB.Controllers
             return PartialView("_SearchProductsResultPartial", res);
         }
 
+        [Authorize]
         public async Task<IActionResult> ProductRemovetoCart(int productId)
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.ProductRemovetoCart(productId, userid);
             return Ok(res);
         }
+        [Authorize]
         public async Task<IActionResult> ProductRemovetoWishList(int productId)
         {
             var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
             var res = await _productService.ProductRemovetoWishList(productId, userid);
             return Ok(res);
+        }
+        [Authorize]
+        public async Task<IActionResult> ProductCheckOut()
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetCartProducts(userid);
+            return PartialView("_ProductCheckOutPartial", res);
+        }
+        [Authorize]
+        public async Task<IActionResult> SingleProductCheckOut(int productId)
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.ProductAddtoCart(productId, userid);
+            var productsData = await _productService.GetCartProducts(userid);
+            productsData = productsData.Where(x => x.productid == productId).ToList();
+            return PartialView("_ProductCheckOutPartial", res);
+        }
+        [Authorize]
+        public async Task<IActionResult> ConfirmProductCheckOut(UserCheckOutViewModel model)
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            model.userid = userid;
+            var res = await _productService.UserCheckOut(model);
+            return Ok(res);
+        }
+
+        public async Task<IActionResult> GetOrderedProducts()
+        {
+            var userid = Convert.ToInt32(((ClaimsIdentity)User.Identity).GetSpecificClaim(ClaimType.UserId));
+            var res = await _productService.GetOrderedProducts(userid);
+            return PartialView("_OrderedProductsPartial", res);
         }
     }
 }
