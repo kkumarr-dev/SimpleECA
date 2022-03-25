@@ -30,9 +30,5 @@ namespace SimpleECA.Services
         {
             return await _authenticationRepo.GetById(id);
         }
-        public async Task<bool> CreateUser(UserDetailsViewModel user)
-        {
-            return await _authenticationRepo.CreateUser(user);
-        }
     }
 }

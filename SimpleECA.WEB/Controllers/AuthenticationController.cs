@@ -39,12 +39,6 @@ namespace SimpleECA.WEB.Controllers
         {
             return View();
         }
-        [Route("u-register")]
-        public async Task<IActionResult> Register(UserDetailsViewModel user)
-        {
-            var res = await _authService.CreateUser(user);
-            return Ok(res);
-        }
         [Route("u-login")]
         public async Task<IActionResult> Login(AuthenticateRequestViewModel model)
         {

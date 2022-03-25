@@ -12,6 +12,5 @@ namespace SimpleECA.Repos
         Task<AuthenticateResponseViewModel> Authenticate(AuthenticateRequestViewModel model);
         Task<List<UserDetailsViewModel>> GetAll();
         Task<AuthUserViewModel> GetById(int id);
-        Task<bool> CreateUser(UserDetailsViewModel user);
     }
 }

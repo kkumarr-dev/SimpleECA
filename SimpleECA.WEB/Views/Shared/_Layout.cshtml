@@ -337,7 +337,7 @@
             });
 
             $.ajax({
-                url: 'u/u-login',
+                url: '/u/u-login',
                 type: 'POST',
                 dataType: 'json',
                 data: data,
@@ -362,9 +362,8 @@
             $(formdata).each(function (index, obj) {
                 data[obj.name] = obj.value;
             });
-
             $.ajax({
-                url: 'u/u-register',
+                url: '/user/SignUp',
                 type: 'POST',
                 dataType: 'json',
                 data: data,
@@ -405,7 +404,7 @@
         function Getcart() {
             showLoader();
             $.ajax({
-                url: 'Product/GetCartProducts',
+                url: '/Product/GetCartProducts',
                 type: 'POST',
                 dataType: 'json',
                 success: function (data) {

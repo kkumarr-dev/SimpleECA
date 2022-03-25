@@ -36,7 +36,7 @@ namespace SimpleECA.Repos
                     lastname = user.lastname,
                     mobilenumber = user.mobilenumber,
                     updatedon = DateTime.Now,
-                    userroleid = user.userroleid,
+                    userroleid = 4, //user.userroleid,
                     rpassword = AESCryptoHelper.Encrypt(user.rpassword, _appsettings.Secret.Key)
                 };
                 await _dBContext.TblUserDetails.AddAsync(dbModel);
